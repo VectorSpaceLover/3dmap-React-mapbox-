@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import PolygonMap from '../components/polygonmap';
 import { makeStyles } from '@mui/styles';
-import { SetupSiteBar } from '../components/setup';
+// import GmailTreeView from '../components/gmailtreeview';
+
+
 const useStyles = makeStyles({
   root: {
     display: 'flex',
@@ -11,34 +13,12 @@ const useStyles = makeStyles({
 });
 
 function ShowSite() {
-  const newSiteEl = useRef(null);
   const classes = useStyles();
-
-  const [showMarkup, setShowMarkup] = useState(false);
-
-  const drawPolygon = () => {
-    newSiteEl.current.setCreatePolygonMode();
-  }
-
-  const editPolygon = () => {
-
-  }
-
-  const markupSite = () => {
-    setShowMarkup(true);
-  }
-
-  const createSite = () => {
-  }
-
-  const deletePolygon = () => {
-    newSiteEl.current.deleteSelectedPolyon();
-  }
 
   return (
       <>
         <div className = {classes.root} >
-            Show Site
+            {/* <GmailTreeView /> */}
         </div>
       </>
   );

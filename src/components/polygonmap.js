@@ -74,14 +74,16 @@ const PolygonMap = forwardRef((props, ref) => {
           props.setExistPolygon(true);
           props.setEditingStatus(BOUNDARY_CREATE);
       }
+      props.endDrawPolygon();
   };
 
   const onDrawUpdate = ({ features }) => {
     if (features.length > 0) {
       let polyID = features[0].id;
       let points = features[0].geometry.coordinates;
+      console.log(points);
       setPolygon({"id": polyID, "points": points});
-      props.setExistPolygon(true);
+      props.editPolygon({"id": polyID, "points": points});
     }
   };
 
@@ -179,8 +181,11 @@ const PolygonMap = forwardRef((props, ref) => {
 
   const deleteSelectedPolyon = () => {
     let selectedIDs = drawControl.current.draw.getSelectedIds();
+    if(selectedIDs.length === 0)
+      return false;
     drawControl.current.draw.delete(selectedIDs);
     setPolygon({});
+    return true;
   }
 
   const deleteMarkup = () => {
@@ -225,7 +230,7 @@ const PolygonMap = forwardRef((props, ref) => {
                 style="mapbox://styles/mapbox/streets-v9" // eslint-disable-line
                 onStyleLoad={onStyleLoaded}
                 containerStyle={{
-                  height: "600px",
+                  height: `calc(100vh - 84px)`,
                   width: `calc(100vw - ${SIDEBAR_WIDTH}px)`,
                   position: 'relative',
                 }}
