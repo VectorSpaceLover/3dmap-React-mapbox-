@@ -3,14 +3,14 @@ import ReactMapboxGl, { Marker } from "react-mapbox-gl";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import marker from '../marker.png';
-import { MAP_VIEW, SIDEBAR_WIDTH, SITE_LIST } from "../constant";
+import { MAP_VIEW, SIDEBAR_WIDTH, MAP_CENTER_COORDINATE } from "../constant";
 import MapPin from './mappin';
 import PopOver from './popover'
 import { useNavigate } from "react-router-dom";
 import { makeStyles, withStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import { SitesContext } from "../contexts/sites";
-import CustomizedInputBase from './searchbox';
+import SearchBox from './searchbox';
 
 const useStyles = makeStyles({
   root: {
@@ -69,6 +69,10 @@ const MarkerMap = forwardRef((props, ref) => {
 
   const onStyleLoaded = (map)  => {
     setMapObj(map);
+    console.log(props.selId);
+    if(props.selId === 0){
+      map.panTo(MAP_CENTER_COORDINATE);
+    }
   }
 
   const goToSelectedSite = (item) => {
@@ -78,11 +82,18 @@ const MarkerMap = forwardRef((props, ref) => {
         mapObj.panTo([item?.data?.centroid[0], item?.data?.centroid[1]]);
     }
   }
-  useImperativeHandle(ref, () => ({ goToSelectedSite }), [mapObj])
+  const goToInitialPos = () => {
+    if(mapObj){
+        mapObj.panTo([149.012375, -35.473469]);
+    }
+  }
+  // [149.012375, -35.473469]
+  useImperativeHandle(ref, () => ({ goToSelectedSite, goToInitialPos }), [mapObj])
 
   useEffect(() => {
     setSiteInfo(MAP_VIEW);
   }, [])
+        // center = {[149.012375, -35.473469]}
 
   return (
     <div className={classes.root}>
@@ -94,7 +105,6 @@ const MarkerMap = forwardRef((props, ref) => {
           width: `calc(100vw - ${SIDEBAR_WIDTH}px)`
         }}
       >
-        {/* defaultMode = 'draw_polygon' */}
         <DrawControl ref={drawControl} displayControlsDefault={false} />
         {(sites.length > 0)? sites.map((item, index) => {
           return(
@@ -107,7 +117,6 @@ const MarkerMap = forwardRef((props, ref) => {
               offsetLeft={-15}
             >
                   <div className='custom-pin'
-                    // ref = {refCallback}
                     onDoubleClick={() => handleDoubleClick(item.sitemappingId)}
                     onClick={() => handleClick(index)}
                   >
@@ -128,6 +137,7 @@ const MarkerMap = forwardRef((props, ref) => {
       <ColorButton onClick={() => addNewSite()}>
         Add New Site
       </ColorButton>
+      <div style = {{display: 'flex', justifyContent: 'center'}}><SearchBox /></div>
     </div>
   );
 })
