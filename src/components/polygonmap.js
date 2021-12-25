@@ -8,9 +8,6 @@ import { makeStyles, withStyles } from '@mui/styles';
 import { 
   MAP_CENTER_COORDINATE,
   SIDEBAR_WIDTH, 
-  STATUS_NONE, 
-  BOUNDARY_CREATE, 
-  MARKUP_CREATE,
   SAVE_MARKUP_MSG,
   SAVE_BOUNDARY_MSG,
 } from "../constant";
@@ -19,8 +16,7 @@ import * as turf from "@turf/turf";
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import IconPin from './iconpin';
 import { CurrentSiteContext } from "../contexts/currentsite";
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
+import {Snackbar} from '@mui/material';
 import { useToasts } from 'react-toast-notifications'
 
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
@@ -41,6 +37,7 @@ const ColorButton = withStyles((theme) => ({
       paddingTop: '2px',
       paddingBottom: '2px',
       textTransform: 'none',
+      borderRadius: 0,
       backgroundColor: '#18941D !important',
       border: '2px solid #18941D',
       '&:hover': {
@@ -58,12 +55,20 @@ const Map = ReactMapboxGl({
 const PolygonMap = forwardRef((props, ref) => {
   const classes = useStyles();
   const [ currentSite ] = useContext(CurrentSiteContext);
-  const [polygon, setPolygon] = useState({});
-  const [iconList, setIconList] = useState([]);
+  const [polygonOld, setPolygonOld] = useState({});
+  const [polygonNew, setPolygonNew] = useState({});
+  const [iconListOld, setIconListOld] = useState([]);
+  const [iconListNew, setIconListNew] = useState([]);
   const [selItem, setItem] = useState({});
   const [mapObj, setMap] = useState(null);
   const [selIcon, setSelIcon] = useState(null);
   const [msg, setMsg] = useState(SAVE_BOUNDARY_MSG);
+  const [msgActive, setMsgActive] = useState(false);
+
+  // Compare New Data
+  const [isNewPolygon, setIsNewPolygon] = useState(false);
+  const [isNewMarkup, setIsNewMarkup] = useState(false);
+
   const { addToast } = useToasts();
 
   const mapRef = useRef();
@@ -75,10 +80,10 @@ const PolygonMap = forwardRef((props, ref) => {
       if (features.length > 0) {
           let polyID = features[0].id;
           let points = features[0].geometry.coordinates;
-          console.log(points)
-          setPolygon({"id": polyID, "points": points});
-          props.setExistPolygon(true);
-          props.setEditingStatus(BOUNDARY_CREATE);
+          var trufpolygon = turf.polygon(points);
+          var center = turf.centerOfMass(trufpolygon);
+          let poly = {"id": polyID, "points": points, "center": center.geometry.coordinates};
+          setPolygonNew(poly);
       }
       props.endDrawPolygon();
   };
@@ -87,12 +92,31 @@ const PolygonMap = forwardRef((props, ref) => {
     if (features.length > 0) {
       let polyID = features[0].id;
       let points = features[0].geometry.coordinates;
-      console.log(points);
-      setPolygon({"id": polyID, "points": points});
-      props.editPolygon({"id": polyID, "points": points});
+      var trufpolygon = turf.polygon(points);
+      var center = turf.centerOfMass(trufpolygon);
+      let poly = {"id": polyID, "points": points, "center": center.geometry.coordinates};
+      setPolygonNew(poly);
     }
   };
 
+  const checkNewPolygon = React.useCallback(
+    () => {
+      let isNew = (JSON.stringify(polygonNew) !== JSON.stringify(polygonOld));
+      setIsNewPolygon(isNew);
+      props.setIsSavedPolygon(!isNew);
+      },
+    [polygonNew, polygonOld, props]
+  );
+
+  const checkNewMarkup = React.useCallback(
+    () => {
+      let isNew = (JSON.stringify(iconListNew) !== JSON.stringify(iconListOld));
+      setIsNewMarkup(isNew);
+      props.setIsSavedMarkup(!isNew);
+      },
+    [iconListNew, iconListOld, props]
+  );
+  
  const onStyleLoaded = (map, event)  => {
     setMap(map);
     const geocoder = new MapboxGeocoder({
@@ -100,18 +124,9 @@ const PolygonMap = forwardRef((props, ref) => {
       accessToken: "pk.eyJ1IjoiZmFrZXVzZXJnaXRodWIiLCJhIjoiY2pwOGlneGI4MDNnaDN1c2J0eW5zb2ZiNyJ9.mALv0tCpbYUPtzT7YysA2g", // Set the access token
       mapboxgl: map, // Set the mapbox-gl instance
       placeholder: 'Search here', // Placeholder text for the search bar
-      // bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
-      // proximity: {
-      //   longitude: -122.25948,
-      //   latitude: 37.87221
-      // } // Coordinates of UC Berkeley
     });
     map.addControl(geocoder);
-
-    if(props.siteID === undefined || props.siteID === null)
-      map.panTo(MAP_CENTER_COORDINATE);
-    else
-      map.panTo(currentSite?.centroid);
+    map.setZoom(6.5);
     props.setMapLoading(false);
     if( currentSite && Object.keys(currentSite).length !== 0){
       var storedPolygons = currentSite?.polyrings;
@@ -126,17 +141,24 @@ const PolygonMap = forwardRef((props, ref) => {
   }
 
   const dragEnd = (event) => {
-    if (mapRef.current) {
-      const rect = mapRef.current.container;
-      const currentCenterPixel = mapObj.project(mapObj.getCenter());
-      currentCenterPixel.x = event.clientX - rect.offsetLeft;
-      currentCenterPixel.y = event.clientY - rect.offsetTop + window.scrollY;
-      let iconInfo = mapObj.unproject(currentCenterPixel);
-      if(checkCoordinate(iconInfo.lng, iconInfo.lat) === true) {
-        setIconList([...iconList, {id: iconList.length, icon: selItem.value, position: iconInfo}]);
-        props.setExistMakrup(true);
+    
+    if(selItem && Object.keys(selItem).length !== 0){
+      if (mapRef.current) {
+        const rect = mapRef.current.container;
+        const currentCenterPixel = mapObj.project(mapObj.getCenter());
+        currentCenterPixel.x = event.clientX - rect.offsetLeft;
+        currentCenterPixel.y = event.clientY - rect.offsetTop + window.scrollY;
+        let iconInfo = mapObj.unproject(currentCenterPixel);
+        if(checkCoordinate(iconInfo.lng, iconInfo.lat) === true) {
+          if(iconListNew.length === 0)
+            setIconListNew([...iconListNew, {id: iconListNew.length, icon: selItem.value, position: iconInfo}]);
+          else
+            setIconListNew([...iconListNew, {id: iconListNew[iconListNew.length - 1].id + 1, icon: selItem.value, position: iconInfo}]);
+          props.setExistMakrup(true);
+        }
       }
     }
+    setItem({});
   }
 
   const checkCoordinate = (lat, lon) => {
@@ -156,7 +178,7 @@ const PolygonMap = forwardRef((props, ref) => {
       }
     }
 
-    if (polygon.id === undefined || polygon.id === null) {
+    if (polygonNew.id === undefined || polygonNew.id === null) {
       addToast('You should add polygon into the map', {
         appearance: 'warning',
         autoDismiss: true,
@@ -166,7 +188,7 @@ const PolygonMap = forwardRef((props, ref) => {
 
     let bInside = false;
     let point = turf.point([parseFloat(lat), parseFloat(lon)])
-    var geojson = turf.polygon(polygon.points);
+    var geojson = turf.polygon(polygonNew.points);
     var options = {tolerance: 0.005, highQuality: false};
     var simplified = turf.simplify(turf.buffer(geojson, '0.1', {units : 'kilometers'}), options)
     let calculatedRegion = turf.polygon(simplified.geometry.coordinates);
@@ -190,21 +212,38 @@ const PolygonMap = forwardRef((props, ref) => {
 
   const deleteSelectedPolyon = () => {
     let selectedIDs = drawControl.current.draw.getSelectedIds();
-    if(selectedIDs.length === 0)
+    if(selectedIDs.length === 0){
+      addToast('You should select polygon', {
+        appearance: 'warning',
+        autoDismiss: true,
+      })
       return false;
+    }
     drawControl.current.draw.delete(selectedIDs);
-    setPolygon({});
+    setPolygonOld({});
+    setPolygonNew({});
     return true;
   }
 
   const deleteMarkup = () => {
-    let newList = iconList.filter((item) => {
-      if(item.id === selIcon)
+    let bExist = false;
+    let newList = iconListNew.filter((item) => {
+      if(item.id === selIcon){
+        bExist = true;
         return false;
+      }
       else
         return true;
     })
-    setIconList(newList);
+    if(!bExist || selIcon === null){
+      addToast('You should select markup', {
+        appearance: 'warning',
+        autoDismiss: true,
+      })
+      return;
+    }
+    setIconListNew(newList);
+    setSelIcon(null);
   }
 
   const handleClick = (event) => {
@@ -215,20 +254,62 @@ const PolygonMap = forwardRef((props, ref) => {
     setAnchorEl(null);
   };
 
+  const saveBoundary = (event) => {
+    handleClick(event);
+    localStorage.setItem("polygon", JSON.stringify(polygonNew));
+    setPolygonOld(polygonNew);
+    setMsg(SAVE_BOUNDARY_MSG);
+    props.setIsSavedPolygon(true);
+  }
+
+  const saveMarkup = (event) => {
+    handleClick(event);
+    localStorage.setItem("markups", JSON.stringify(iconListNew));
+    setIconListOld(iconListNew);
+    setMsg(SAVE_MARKUP_MSG);
+    props.setIsSavedMarkup(true);
+    setMsgActive(true)
+  }
+
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  useImperativeHandle(ref, () => ({ setCreatePolygonMode, deleteSelectedPolyon, deleteMarkup}), [iconList, selIcon, setPolygon, setIconList, drawControl])
+  useImperativeHandle(ref, () => ({ setCreatePolygonMode, deleteSelectedPolyon, deleteMarkup}), [selIcon, setIconListOld, setIconListNew, drawControl]);
+
+
+  const getPolyAndMark = React.useCallback(
+    () => {
+      let storedIcon = JSON.parse(localStorage.getItem("markups"));
+      let storedPolygon = JSON.parse(localStorage.getItem("polygon"));
+      setIconListOld(storedIcon);
+      setIconListNew(storedIcon);
+      setPolygonOld(storedPolygon);
+      setPolygonNew(storedPolygon);
+      if(storedPolygon.length > 0)
+        props.setExistPolygon(true);
+      else
+        props.setExistMakrup(false);
+      if(storedIcon.length > 0)
+        props.setExistMakrup(true);
+      else
+        props.setExistMakrup(false);
+      },
+    [props]
+  );
+
+  // useEffect(() => {
+  //   getPolyAndMark();
+  // }, [props, getPolyAndMark])
 
   useEffect(() => {
-    if (currentSite && Array.isArray(currentSite?.markup)) {
-      setIconList(currentSite?.markup);
-      setPolygon(currentSite?.polyrings);
-      props.setEditingStatus(MARKUP_CREATE);
-      props.setExistMakrup(true);
-    }
-  }, [currentSite, props])
+    checkNewMarkup();
+    checkNewPolygon();
+  }, [polygonNew, polygonOld, checkNewMarkup, checkNewPolygon])
   
+  useEffect(() => {
+    getPolyAndMark();
+  }, [])
+
   return (
     <Dropzone>
       {({ getRootProps, getInputProps }) => (
@@ -241,12 +322,13 @@ const PolygonMap = forwardRef((props, ref) => {
                 onStyleLoad={onStyleLoaded}
                 containerStyle={{
                   height: `calc(100vh - 84px)`,
-                  width: `calc(100vw - ${SIDEBAR_WIDTH}px)`,
+                  width: `calc(100vw - ${SIDEBAR_WIDTH}px - 20px)`,
                   position: 'relative',
                 }}
+                center={(props.siteID === undefined || props.siteInfo === null)?MAP_CENTER_COORDINATE:currentSite?.centroid}
               >
                 <DrawControl ref={drawControl} displayControlsDefault={false} onDrawCreate={onDrawCreate} onDrawUpdate={onDrawUpdate}/>
-                {(iconList.length > 0)?iconList.map((item, index) => {
+                {(iconListNew.length > 0)?iconListNew.map((item, index) => {
                   return(
                     <Marker
                       key = {index}
@@ -260,66 +342,71 @@ const PolygonMap = forwardRef((props, ref) => {
                             style={{position: 'relative'}}
                             onClick={() => handleIcon(item.id)}
                           >
-                            <IconPin 
+                            <IconPin
                               icon = {item.icon}
                               isSelec = {(item.id === selIcon)?true:false}
                             />
-                            {/* <div style={{position: 'absolute', right: 0, top: 0}}>
-                                <img src =  alt="close"/>
-                            </div> */}
                           </div>
                     </Marker>
                   )
                 }): (<></>)}
               </Map>
-              {/* <IconBar dragItem = {dragItem} /> */}
-              <div style={{ position: 'absolute', display: 'flex', justifyContent: 'center', top: 620, width: '80%' }}>
-                <div>
-                  {(props.editingStatus === STATUS_NONE)?
-                    (<></>):
-                    ((props.editingStatus === BOUNDARY_CREATE)?
-                    (<ColorButton 
-                      aria-describedby={id} 
-                      variant="contained" 
-                      onClick={(event) => {props.saveBoundary(polygon);setMsg(SAVE_BOUNDARY_MSG);handleClick(event)}}
+                  {isNewPolygon?(
+                    <div style={{ position: 'absolute', display: 'flex', justifyContent: 'center', bottom: 30, width: '80%' }}>
+                      <div style={{paddingTop: 23, position: 'relative'}} onClick={(event) => saveBoundary(event)}>
+                        <ColorButton 
+                          variant="contained" 
+                          aria-describedby={id}
+                        >
+                          <CheckCircleRoundedIcon 
+                            style = {{marginRight: 10}} 
+                          />
+                          <span>Save Boundary</span>
+                        </ColorButton>
+                      </div>
+                    </div>):(
+                    isNewMarkup?(
+                      <div style={{ position: 'absolute', display: 'flex', justifyContent: 'center', bottom: 30, width: '80%' }}>
+                        <div style={{paddingTop: 23}} onClick={(event) => saveMarkup(event)}>
+                          <ColorButton 
+                            variant="contained" 
+                            aria-describedby={id}
+                          >
+                            <CheckCircleRoundedIcon 
+                              style = {{marginRight: 10}} 
+                            />
+                            <span>Save Markup</span>
+                          </ColorButton>
+                        </div>
+                      </div>):
+                    (<></>)
+                  )}
+                  <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    open={msgActive}
+                    onClose={() => setMsgActive(false)}
+                    message={msg}
+                    key={'bottom center'}
+                  />
+                  {/* <Popover
+                      id={id}
+                      open={open}
+                      anchorEl={anchorEl}
+                      onClose={handleClose}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                      }}
+                      transformOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                      }}
+                      PaperProps={{
+                        style: { width: 350, textAlign: 'center'},
+                      }}
                     >
-                      <CheckCircleRoundedIcon 
-                        style = {{marginRight: 10}} 
-                      />
-                        <span>Save Boundary</span>
-                    </ColorButton>):
-                    (<ColorButton 
-                      aria-describedby={id} 
-                      variant="contained" 
-                      onClick={(event) => {props.saveMarkup(iconList);setMsg(SAVE_MARKUP_MSG);handleClick(event)}}
-                    >
-                      <CheckCircleRoundedIcon 
-                        style = {{marginRight: 10}} 
-                      />
-                      <span>Save Markup</span>
-                    </ColorButton>))
-                  }
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    }}
-                    PaperProps={{
-                      style: { width: 350, textAlign: 'center' },
-                    }}
-                  >
-                    <Typography sx={{ p: 2 }}>{msg}</Typography>
-                  </Popover>
-                </div>
-              </div>
+                      <Typography sx={{ p: 2 }}>{msg}</Typography>
+                  </Popover> */}
               {(props.showMarkup || props.isExistMarkup) && <IconBar dragItem = {dragItem} />}
             </div>
           </div>

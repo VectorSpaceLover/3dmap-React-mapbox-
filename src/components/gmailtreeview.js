@@ -10,10 +10,11 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { SHOW_SITE_BAR, SHOWBAR_WIDTH, SHOW_SITE_BAR_CHILD, BG_COLOR_BLACK, BG_COLOR_WHITE, BG_COLOR_BULE, BG_COLOR_BULE_LITTLE} from '../constant';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
-
+import { CLICK_ATTENDENCE_LIVE, CLICK_ATTENDENCE_DAILY, CLICK_ATTENDENCE_HISTORY } from '../constant';
 
 const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
   color: theme.palette.text.secondary,
+  backgroundColor: 'white',
   [`& .${treeItemClasses.content}`]: {
     color: theme.palette.text.secondary,
     paddingRight: theme.spacing(1),
@@ -21,6 +22,10 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
     height: 50,
     display: 'flex',
     alignItems: 'center',
+    '&.MuiTreeItem-content': {
+      padding: 0,
+      margin: 0,
+    },
     '&.Mui-expanded': {
       fontWeight: theme.typography.fontWeightRegular,
     },
@@ -88,9 +93,27 @@ const rootItem = {
   nodeId: '0',
   icon: ArrowBackIcon,
 }
-export default function GmailTreeView({siteName}) {
+export default function GmailTreeView({
+  siteName
+}) {
+  
   const history = useNavigate();
-
+  const handleClick = (txt) => {
+    if(txt === CLICK_ATTENDENCE_LIVE)
+      history('/showsite/attendence/1');
+    else{
+      if(txt === CLICK_ATTENDENCE_DAILY)
+        history('/showsite/attendence/2');
+      else{
+        if(txt === CLICK_ATTENDENCE_HISTORY){
+          history('/showsite/attendence/3');
+        }
+        else{
+          console.log('others');
+        }
+      }
+    }
+  }
   return (
     <TreeView
       aria-label="gmail"
@@ -100,11 +123,12 @@ export default function GmailTreeView({siteName}) {
       defaultEndIcon={<div style={{ width: 24 }} />}
       sx={{ width: SHOWBAR_WIDTH }}
     >
+      {/* {siteName} */}
       <StyledTreeItem
         nodeId={rootItem.nodeId} 
-        labelText={siteName} 
+        labelText= 'Site 1'
         labelIcon={rootItem.icon}
-        color={BG_COLOR_BLACK}
+        color={BG_COLOR_WHITE}
         bgColor={BG_COLOR_BULE_LITTLE}
         onClick = {() => history('/')}
       />
@@ -112,16 +136,18 @@ export default function GmailTreeView({siteName}) {
         return (
           <div key = {item.lableText}>
             {item.nodeId === '2'?(
-              <StyledTreeItem nodeId={item.nodeId} labelText={item.lableText} labelIcon={item.icon}>
-                {SHOW_SITE_BAR_CHILD.map((item) => {
+              <StyledTreeItem nodeId={item.nodeId} labelText={item.lableText} labelIcon={item.icon} color={BG_COLOR_WHITE} bgColor={BG_COLOR_BULE}>
+                {SHOW_SITE_BAR_CHILD.map((item, index) => {
                   return (
                     <StyledTreeItem
-                      key = {item.lableText}
+                      style = {{width: 244}}
+                      key = {index}
                       nodeId={item.nodeId}
                       labelText={item.lableText}
                       labelIcon={item.icon}
-                      color={BG_COLOR_BLACK}
+                      color={BG_COLOR_WHITE}
                       bgColor={BG_COLOR_BULE_LITTLE}
+                      onClick = {() => handleClick(item.lableText)}
                     />
                   )
                 })}

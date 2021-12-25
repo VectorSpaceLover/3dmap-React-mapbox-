@@ -7,6 +7,16 @@ import { ReactComponent as StopIcon } from '../images/markups/stop.svg';
 import { ReactComponent as LabelIcon } from '../images/markups/label.svg';
 import { ReactComponent as HighlightIcon } from '../images/markups/highlight.svg';
 
+import { ReactComponent as WhiteMustterIcon } from '../images/whitemarkups/mustter.svg';
+import { ReactComponent as WhiteEntryIcon } from '../images/whitemarkups/entry.svg';
+import { ReactComponent as WhiteParkingIcon } from '../images/whitemarkups/parking.svg';
+import { ReactComponent as WhiteHazardsIcon } from '../images/whitemarkups/hazards.svg';
+import { ReactComponent as WhiteCrossIcon } from '../images/whitemarkups/cross.svg';
+import { ReactComponent as WhiteStopIcon } from '../images/whitemarkups/stop.svg';
+import { ReactComponent as WhiteLabelIcon } from '../images/whitemarkups/label.svg';
+import { ReactComponent as WhiteHighlightIcon } from '../images/whitemarkups/highlight.svg';
+
+
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
@@ -82,41 +92,49 @@ export const ICON_LIST = [
         'id': 1,
         'value': 'Mustter Points',
         'icon':  <MustterIcon />,
+        'whiteicon': <WhiteMustterIcon />,
     },
     {
         'id': 2,
         'value': 'Entry',
         'icon':  <EntryIcon />,
+        'whiteicon': <WhiteEntryIcon />,
     },
     {
         'id': 3,
         'value': 'Parking',
         'icon':  <ParkingIcon />,
+        'whiteicon': <WhiteParkingIcon />,
     },
     {
         'id': 4,
         'value': 'Hazards',
         'icon':  <HazardsIcon />,
+        'whiteicon': <WhiteHazardsIcon />,
     },
     {
         'id': 5,
         'value': 'Cross',
         'icon':  <CrossIcon />,
+        'whiteicon': <WhiteCrossIcon />,
     },
     {
         'id': 6,
         'value': 'Stop',
         'icon':  <StopIcon />,
+        'whiteicon': <WhiteStopIcon />,
     },
     {
         'id': 7,
         'value': 'Add Label',
         'icon':  <LabelIcon />,
+        'whiteicon': <WhiteLabelIcon />,
     },
     {
         'id': 8,
         'value': 'Highlight',
         'icon':  <HighlightIcon />,
+        'whiteicon': <WhiteHighlightIcon />,
     },
 
 ]
@@ -195,9 +213,13 @@ export const SHOW_SITE_BAR_CHILD = [
     },
 ]
 
+export const CLICK_ATTENDENCE_LIVE = 'Live Attendence';
+export const CLICK_ATTENDENCE_DAILY = 'Daily Attendence';
+export const CLICK_ATTENDENCE_HISTORY = 'Attendence History';
+
 export const SAVE_MARKUP_MSG = 'Site markup will be visibile to workers and visitors on the mobile application';
 export const SAVE_BOUNDARY_MSG = 'The site boundary must be a contained area';
-export const SIDEBAR_WIDTH = 365;
+export const SIDEBAR_WIDTH = 356;
 export const SHOWBAR_WIDTH = 260;
 export const ICONBAR_WIDTH = 230;
 
@@ -221,6 +243,10 @@ export const BG_COLOR_WHITE = '#ffffff';
 export const BG_COLOR_GRAY = '#aaafb8ef';
 export const BG_COLOR_BULE = '#0066ffef';
 export const BG_COLOR_BLACK = '#413B5A';
-export const BG_COLOR_BULE_LITTLE = '#CEE2FF';
+export const BG_COLOR_BULE_LITTLE = '#1875F0';
+export const BG_COLOR_LITTLE_GRAY = '#E4E4E4';
+
+export const BG_COLOR_BOUNDARY_BTN = '#1875F0';
+export const BG_COLOR_WARNING = '#EF4F4F';
 
 export const MAP_CENTER_COORDINATE = [149.012375, -35.473469];

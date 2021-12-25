@@ -6,12 +6,12 @@ import { SIDEBAR_WIDTH, SITE_LIST, MAP_VIEW} from '../constant';
 import { Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
+import '../css/style.css';
 
 const useStyles = makeStyles({
     root: {
         width: SIDEBAR_WIDTH,
-        padding: 0,
-        marginTop: 0,
+        overflow: 'auto'
     },
     selected: {
         backgroundColor: '#0066ffef',
@@ -49,7 +49,6 @@ export const SideBar = ({ getSelectedItem, sites }) => {
         setSelected(id);
         getSelectedItem(id, item);
     }
-
     
     // useEffect(() => {
     //     console.log('width', sideBarEl.current ? sideBarEl.current.offsetWidth : 0);
@@ -77,7 +76,7 @@ export const SideBar = ({ getSelectedItem, sites }) => {
                                     button={true} 
                                     className={isSelected(i + 1) ? classes.selected : null} 
                                     onClick={() => onSelected(i + 1, item)}
-                                    onDoubleClick={() => history(`/showsite/${item.sitemappingId}`)}
+                                    onDoubleClick={() => history(`/showsite/managesite/${item.sitemappingId}`)}
                                 >
                                     <ListItemText primary={item.data.Sitename} ></ListItemText>
                                 </ListItem>

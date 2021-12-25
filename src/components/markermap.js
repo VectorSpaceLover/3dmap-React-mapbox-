@@ -18,7 +18,7 @@ import '../css/style.css';
 
 const useStyles = makeStyles({
   root: {
-      padding: 10,
+      padding: 12,
   },
 });
 
@@ -34,6 +34,7 @@ const ColorButton = withStyles((theme) => ({
       paddingTop: '2px',
       paddingBottom: '2px',
       textTransform: 'none',
+      borderRadius: 0,
       backgroundColor: '#0066ffef !important',
       border: '2px solid #0066ffef',
       '&:hover': {
@@ -84,6 +85,7 @@ const MarkerMap = forwardRef((props, ref) => {
       //   latitude: 37.87221
       // } // Coordinates of UC Berkeley
     });
+    map.setZoom(6);
 
     map.addControl(geocoder);
     if(props.selId === 0){
@@ -99,6 +101,7 @@ const MarkerMap = forwardRef((props, ref) => {
     }
   }
   const goToInitialPos = () => {
+    setSiteInfo(MAP_VIEW);
     if(mapObj){
         mapObj.panTo(MAP_CENTER_COORDINATE);
     }
@@ -120,6 +123,7 @@ const MarkerMap = forwardRef((props, ref) => {
           height: `calc(100vh - 84px)`,
           width: `calc(100vw - ${SIDEBAR_WIDTH}px)`
         }}
+        center={MAP_CENTER_COORDINATE}
       >
         <DrawControl ref={drawControl} displayControlsDefault={false} />
         {(sites.length > 0)? sites.map((item, index) => {
