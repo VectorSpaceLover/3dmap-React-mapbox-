@@ -16,15 +16,24 @@ import { ReactComponent as WhiteStopIcon } from '../images/whitemarkups/stop.svg
 import { ReactComponent as WhiteLabelIcon } from '../images/whitemarkups/label.svg';
 import { ReactComponent as WhiteHighlightIcon } from '../images/whitemarkups/highlight.svg';
 
+import { ReactComponent as ManageSiteIcon } from '../images/bar/setting.svg';
+import { ReactComponent as AttendenceIcon } from '../images/bar/attendence.svg';
+import { ReactComponent as InductionsIcon } from '../images/bar/induction.svg';
+import { ReactComponent as BriefingIcon } from '../images/bar/briefing.svg';
+import { ReactComponent as NoticeIcon } from '../images/bar/notice.svg';
+import { ReactComponent as SafetyIcon } from '../images/bar/safety.svg';
+import { ReactComponent as PermitsIcon } from '../images/bar/permits.svg';
+import { ReactComponent as HazardIcon } from '../images/bar/hazards.svg';
 
-import SettingsIcon from '@mui/icons-material/Settings';
-import PersonIcon from '@mui/icons-material/Person';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
-import MessageIcon from '@mui/icons-material/Message';
-import DescriptionIcon from '@mui/icons-material/Description';
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { ReactComponent as WhiteManageSiteIcon } from '../images/bar/setting.svg';
+import { ReactComponent as WhiteAttendenceIcon } from '../images/bar/attendence.svg';
+import { ReactComponent as WhiteInductionsIcon } from '../images/bar/induction.svg';
+import { ReactComponent as WhiteBriefingIcon } from '../images/bar/briefing.svg';
+import { ReactComponent as WhiteNoticeIcon } from '../images/bar/notice.svg';
+import { ReactComponent as WhiteSafetyIcon } from '../images/bar/safety.svg';
+import { ReactComponent as WhitePermitsIcon } from '../images/bar/permits.svg';
+import { ReactComponent as WhiteHazardIcon } from '../images/bar/hazards.svg';
+
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import UpdateIcon from '@mui/icons-material/Update';
@@ -150,42 +159,50 @@ export const SHOW_SITE_BAR = [
     {
         nodeId: '1',
         lableText: 'Manage Site',
-        icon: SettingsIcon,
+        icon: ManageSiteIcon,
+        whiteicon: WhiteManageSiteIcon,
     },
     {
         nodeId: '2',
         lableText: 'Attendence',
-        icon: PersonIcon,
+        icon: AttendenceIcon,
+        whiteicon: WhiteAttendenceIcon,
     },
     {
         nodeId: '3',
         lableText: 'Inductions',
-        icon: PlaylistAddCheckIcon,
+        icon: InductionsIcon,
+        whiteicon: WhiteInductionsIcon,
     },
     {
         nodeId: '4',
         lableText: 'Pre-Start and Daily Briefing',
-        icon: InsertInvitationIcon,
+        icon: BriefingIcon,
+        whiteicon: WhiteBriefingIcon,
     },
     {
         nodeId: '5',
         lableText: 'Safety and Notices',
-        icon: MessageIcon,
+        icon: NoticeIcon,
+        whiteicon: WhiteNoticeIcon,
     },
     {
         nodeId: '6',
         lableText: 'Safety Work Method Statements',
-        icon: DescriptionIcon,
+        icon: SafetyIcon,
+        whiteicon: WhiteSafetyIcon,
     },
     {
         nodeId: '7',
         lableText: 'Site Permits',
-        icon: NoteAddIcon,
+        icon: PermitsIcon,
+        whiteicon: WhitePermitsIcon,
     },
     {
         nodeId: '8',
         lableText: 'Hazard and Issues',
-        icon: ErrorOutlineIcon,
+        icon: HazardIcon,
+        whiteicon: WhiteHazardIcon,
     },
    
 ]
@@ -213,9 +230,17 @@ export const SHOW_SITE_BAR_CHILD = [
     },
 ]
 
+export const CLICK_MANAGE_SITE = 'Manage Site';
+export const CLICK_ATTENDENCE = 'Attendence';
 export const CLICK_ATTENDENCE_LIVE = 'Live Attendence';
 export const CLICK_ATTENDENCE_DAILY = 'Daily Attendence';
 export const CLICK_ATTENDENCE_HISTORY = 'Attendence History';
+export const CLICK_INDUCTIONS = 'Inductions';
+export const CLICK_BRIEFING = 'Pre-Start and Daily Briefing';
+export const CLICK_NOTICE = 'Safety and Notices';
+export const CLICK_WORK_METHOD = 'Safety Work Method Statements';
+export const CLICK_PERMITS = 'Site Permits';
+export const CLICK_HAZARD = 'Hazard and Issues';
 
 export const SAVE_MARKUP_MSG = 'Site markup will be visibile to workers and visitors on the mobile application';
 export const SAVE_BOUNDARY_MSG = 'The site boundary must be a contained area';

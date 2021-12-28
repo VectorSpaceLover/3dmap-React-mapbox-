@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,16 +11,93 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
-import { makeStyles } from '@mui/styles';
-
 import { ReactComponent as OnlineIcon } from '../../images/table/online.svg';
 import { ReactComponent as OfflineIcon } from '../../images/table/offline.svg';
 import { 
   CLICK_ATTENDENCE_DAILY, 
   CLICK_ATTENDENCE_LIVE, 
-  CLICK_ATTENDENCE_HISTORY 
+  CLICK_ATTENDENCE_HISTORY,
+  BG_COLOR_WHITE,
+  BG_COLOR_BLACK, 
 } from '../../constant';
 import SearchBox from '../searchbox';
+import { makeStyles, withStyles } from '@mui/styles';
+import { ReactComponent as SortIcon } from '../../images/pointer.svg';
+
+import { styled, alpha } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import TextField from '@mui/material/TextField';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
+import Calendar from '../calendar'
+
+const StyledMenu = styled((props) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color:
+      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    boxShadow:
+      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
+    },
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      '&:active': {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity,
+        ),
+      },
+    },
+  },
+}));
+
+const ColorButton = withStyles((theme) => ({
+  root: {
+      fontSize: 13,
+      width: (props) => (props.width?props.width:'100%'),
+      height: (props) => (props.height?props.height:'53px'),
+      color: (props) => (props.txtcolor),
+      paddingTop: '2px',
+      paddingBottom: '2px',
+      textTransform: 'none',
+      borderRadius: 0,
+      backgroundColor: (props) => (props.bgcolor),
+      border: (props) => (`1px solid ${props.brcolor} !important`),
+      '&:hover': {
+          opacity: '.7',
+          backgroundColor: (props) => (props.bgcolor),
+          borderColor: (props) => (`${props.hrcolor} !important`),
+      },
+  },
+}))(Button);
 
 const useStyles = makeStyles({
     tableHeader: {
@@ -62,6 +138,11 @@ const useStyles = makeStyles({
       display: 'flex',
       flexDirection: 'row',
       borderBottom: '1px solid #DDE4EE',
+    },
+
+    sortbtn: {
+      marginTop: 10,
+      marginLeft: 10,
     }
  });
 
@@ -233,6 +314,15 @@ export default function EnhancedTable({clickedItem}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const sortItem = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -283,9 +373,70 @@ export default function EnhancedTable({clickedItem}) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+  const [date, setDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+  const handleDate = (newValue) => {
+    setDate(newValue);
+  };
+
   return (
     <>
-      {clickedItem === CLICK_ATTENDENCE_HISTORY?<SearchBar></SearchBar>:<></>}
+      {clickedItem === CLICK_ATTENDENCE_HISTORY?(
+        <div style = {{display: 'flex', flexDirection: 'row'}}>
+          <SearchBar></SearchBar>
+          <ColorButton 
+              brcolor = '#FAFAFA'
+              bgcolor = '#FAFAFA'
+              txtcolor = {BG_COLOR_BLACK}
+              hrcolor = '#FAFAFA'
+              width = '140px'
+              height = '35px'
+              className = {classes.sortbtn}
+              onClick = {sortItem}
+            >
+              Sort By<KeyboardArrowDownIcon style = {{color: '#7A7A7A', marginLeft: 22}}/>
+          </ColorButton>
+          <StyledMenu
+            id="demo-customized-menu"
+            MenuListProps={{
+              'aria-labelledby': 'demo-customized-button',
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose} disableRipple>
+              Name
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
+              Company Name
+            </MenuItem>
+            <Divider sx={{ my: 0.5 }} />
+            <MenuItem onClick={handleClose} disableRipple>
+              Worker/Visitor
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
+              Time-In
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
+              Time-Out
+            </MenuItem>
+            <MenuItem onClick={handleClose} disableRipple>
+              Hours On Site
+            </MenuItem>
+          </StyledMenu>
+          {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DesktopDatePicker
+            inputFormat="MM/dd/yyyy"
+            value={date}
+            onChange={handleDate}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          </LocalizationProvider> */}
+          <Calendar/>
+        </div>):
+      <></>}
+      
       <Box sx={{ width: '100%', boxShadow: 'none', border: 'none', overflow: 'auto'}}>
         <Paper sx={{ width: '100%', mb: 2, boxShadow: 'none', border: 'none'}}>
           <TableContainer>
@@ -363,6 +514,10 @@ export default function EnhancedTable({clickedItem}) {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
+        {/* <div style = {{position: 'absolute', bottom: 80, right: 200}} >
+          <IconButton color="primary" aria-label="add to shopping cart">
+          </IconButton>
+        </div> */}
       </Box>
     </>
   );
