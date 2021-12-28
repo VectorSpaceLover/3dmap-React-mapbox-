@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -13,30 +13,29 @@ import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
 import { ReactComponent as OnlineIcon } from '../../images/table/online.svg';
 import { ReactComponent as OfflineIcon } from '../../images/table/offline.svg';
+import { ReactComponent as CalendarIcon } from '../../images/table/calendar.svg';
 import { 
   CLICK_ATTENDENCE_DAILY, 
   CLICK_ATTENDENCE_LIVE, 
   CLICK_ATTENDENCE_HISTORY,
-  BG_COLOR_WHITE,
   BG_COLOR_BLACK, 
 } from '../../constant';
 import SearchBox from '../searchbox';
 import { makeStyles, withStyles } from '@mui/styles';
-import { ReactComponent as SortIcon } from '../../images/pointer.svg';
+import { ReactComponent as ArrowIcon } from '../../images/table/arrow.svg';
+import { ReactComponent as PushIcon } from '../../images/table/push.svg';
 
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-import TextField from '@mui/material/TextField';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
-import Calendar from '../calendar'
+import DesktopDatePicker from '@mui/lab/DatePicker';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -314,6 +313,7 @@ export default function EnhancedTable({clickedItem}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const sortItem = (event) => {
@@ -373,16 +373,12 @@ export default function EnhancedTable({clickedItem}) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const [date, setDate] = React.useState(new Date('2014-08-18T21:11:54'));
-
-  const handleDate = (newValue) => {
-    setDate(newValue);
-  };
+  const [date, setDate] = React.useState(new Date());
 
   return (
     <>
       {clickedItem === CLICK_ATTENDENCE_HISTORY?(
-        <div style = {{display: 'flex', flexDirection: 'row'}}>
+        <div style = {{display: 'flex', flexDirection: 'row', position: 'relative'}}>
           <SearchBar></SearchBar>
           <ColorButton 
               brcolor = '#FAFAFA'
@@ -425,15 +421,24 @@ export default function EnhancedTable({clickedItem}) {
               Hours On Site
             </MenuItem>
           </StyledMenu>
-          {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DesktopDatePicker
-            inputFormat="MM/dd/yyyy"
-            value={date}
-            onChange={handleDate}
-            renderInput={(params) => <TextField {...params} />}
-          />
-          </LocalizationProvider> */}
-          <Calendar/>
+          <LocalizationProvider 
+            dateAdapter={AdapterDateFns}
+          >
+            <DesktopDatePicker
+              label="Custom input"
+              value={date}
+              onChange={(newValue) => {
+                setDate(newValue);
+              }}
+              renderInput={({ inputRef, inputProps, InputProps }) => (
+                <Box sx={{ display: 'flex', alignItems: 'center', position: 'absolute', right: 52, top: 10}}>
+                  {InputProps?.endAdornment}
+                  <div ref={inputRef} style = {{marginLeft: 15}}>{inputProps.value}</div>
+                  <KeyboardArrowDownIcon style = {{ marginLeft: 22}}/>
+                </Box>
+              )}
+            />
+          </LocalizationProvider>
         </div>):
       <></>}
       
@@ -514,10 +519,14 @@ export default function EnhancedTable({clickedItem}) {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-        {/* <div style = {{position: 'absolute', bottom: 80, right: 200}} >
+        <div style = {{position: 'absolute', bottom: 40, right: 75, display: 'flex', flexDirection: 'row', alignItems: 'center'}} >
           <IconButton color="primary" aria-label="add to shopping cart">
+            <ArrowIcon style = {{width: 45, height: 45}} />
           </IconButton>
-        </div> */}
+          <IconButton color="primary" aria-label="add to shopping cart">
+            <PushIcon style = {{width: 45, height: 45}}/>
+          </IconButton>
+        </div>
       </Box>
     </>
   );
