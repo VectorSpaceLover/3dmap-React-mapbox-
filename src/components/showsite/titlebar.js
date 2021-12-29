@@ -8,6 +8,7 @@ const useStyles = makeStyles({
     padding: '21px 0px 23px 23px',
     backgroundColor: 'white',
     color: '#33323D',
+    fontWeight: 700,
   },
 
   title: {

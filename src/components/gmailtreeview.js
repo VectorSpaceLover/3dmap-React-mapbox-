@@ -30,11 +30,9 @@ import { useParams } from "react-router-dom";
 
 const StyledTreeItemRoot = styled(TreeItem)(({ theme, ...props }) => ({
   color: '#33323D',
-  // backgroundColor: 'white',
   [`& .${treeItemClasses.content}`]: {
     color: (props.active === 'true')? 'white': '#33323D',
     paddingRight: theme.spacing(1),
-    fontWeight: theme.typography.fontWeightMedium,
     height: 50,
     display: 'flex',
     alignItems: 'center',
@@ -42,9 +40,6 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme, ...props }) => ({
     '&.MuiTreeItem-content': {
       padding: 0,
       margin: 0,
-    },
-    '&.Mui-expanded': {
-      fontWeight: theme.typography.fontWeightRegular,
     },
     '&:hover': {
       opacity: '.7',
@@ -54,7 +49,6 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme, ...props }) => ({
       color: 'var(--tree-view-color)',
     },
     [`& .${treeItemClasses.label}`]: {
-      fontWeight: 'inherit',
       color: 'inherit',
     },
   },
@@ -72,7 +66,6 @@ const StyledChildTreeItemRoot = styled(TreeItem)(({ theme }) => ({
   [`& .${treeItemClasses.content}`]: {
     color: theme.palette.text.secondary,
     paddingRight: theme.spacing(1),
-    fontWeight: theme.typography.fontWeightMedium,
     height: 50,
     display: 'flex',
     alignItems: 'center',
@@ -80,9 +73,6 @@ const StyledChildTreeItemRoot = styled(TreeItem)(({ theme }) => ({
     '&.MuiTreeItem-content': {
       padding: 0,
       margin: 0,
-    },
-    '&.Mui-expanded': {
-      fontWeight: theme.typography.fontWeightRegular,
     },
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
@@ -92,7 +82,6 @@ const StyledChildTreeItemRoot = styled(TreeItem)(({ theme }) => ({
       color: '#1875F0',
     },
     [`& .${treeItemClasses.label}`]: {
-      fontWeight: 'inherit',
       color: 'inherit',
     },
   },
@@ -119,8 +108,8 @@ function StyledTreeItem(props) {
     <StyledTreeItemRoot
       label={
         <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0 }}>
-          <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-          <Typography variant="body2" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
+          <Box component={LabelIcon} color="inherit" style={{ marginRight: 25 }} />
+          <Typography variant="body2" sx={{ fontSize: 13, fontWeight: 400, flexGrow: 1 }}>
             {labelText}
           </Typography>
           <Typography variant="caption" color="inherit">
@@ -160,11 +149,11 @@ function StyledChildTreeItem(props) {
     <StyledChildTreeItemRoot
       label={
         <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0 }}>
-          <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-          <Typography variant="body2" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
+          <Box component={LabelIcon} color="inherit" style={{ marginRight: 20 }}/>
+          <Typography variant="body2" sx={{ fontSize: 12, fontWeight: 400, flexGrow: 1 }}>
             {labelText}
           </Typography>
-          <Typography variant="caption" color="inherit">
+          <Typography variant="caption" color="inherit" >
             {labelInfo}
           </Typography>
         </Box>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { SIDEBAR_WIDTH, SITE_LIST, MAP_VIEW} from '../constant';
+import { SIDEBAR_WIDTH, MAP_VIEW} from '../constant';
 import { Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';

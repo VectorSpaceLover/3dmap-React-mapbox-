@@ -64,7 +64,7 @@ const StyledMenu = styled((props) => (
     },
     '& .MuiMenuItem-root': {
       '& .MuiSvgIcon-root': {
-        fontSize: 18,
+        fontSize: 12,
         color: theme.palette.text.secondary,
         marginRight: theme.spacing(1.5),
       },
@@ -142,6 +142,15 @@ const useStyles = makeStyles({
     sortbtn: {
       marginTop: 10,
       marginLeft: 10,
+    },
+
+    normalcell: {
+      fontSize: 12,
+      fontWeight: 400,
+    },
+    boldcell: {
+      fontSize: 12,
+      fontWeight: 900,
     }
  });
 
@@ -265,6 +274,7 @@ function EnhancedTableHead(props) {
                 align={'center'}
                 // padding={headCell.disablePadding ? 'none' : 'normal'}
                 sortDirection={orderBy === headCell.id ? order : false}
+                className = {classes.normalcell}
               >
                 <TableSortLabel
                   active={orderBy === headCell.id}
@@ -311,7 +321,7 @@ export default function EnhancedTable({clickedItem}) {
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(50);
 
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -478,22 +488,22 @@ export default function EnhancedTable({clickedItem}) {
                         selected={isItemSelected}
                         className={classes.tableRow}
                       >
-                          <TableCell align="left">
+                          <TableCell className = {classes.normalcell} align="left">
                               <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 28}}>
                                   <img src = {`/avatars/${row.imageId}.png`} alt='avatar' className={classes.avatar}/>
                                   <div className={classes.name}>{row.name}</div>
                               </div>
                           </TableCell>
-                          <TableCell align="center"><div className={classes.company}>{row.company}</div></TableCell>
-                          <TableCell align="center"><div className={classes.worker}>{row.worker}</div></TableCell>
-                          <TableCell align="center">{row.inducted?<OnlineIcon/>:<OfflineIcon/>}</TableCell>
-                          <TableCell align="center">{row.daily?<OnlineIcon/>:<OfflineIcon/>}</TableCell>
+                          <TableCell className = {classes.normalcell} align="center"><div className={classes.company}>{row.company}</div></TableCell>
+                          <TableCell className = {classes.normalcell} align="center"><div className={classes.worker}>{row.worker}</div></TableCell>
+                          <TableCell className = {classes.normalcell} align="center">{row.inducted?<OnlineIcon/>:<OfflineIcon/>}</TableCell>
+                          <TableCell className = {classes.normalcell} align="center">{row.daily?<OnlineIcon/>:<OfflineIcon/>}</TableCell>
                           {(clickedItem === CLICK_ATTENDENCE_DAILY || clickedItem === CLICK_ATTENDENCE_HISTORY)?(
                             <>
                               <TableCell align="center"><div className={classes.normal}>{row.timein}</div></TableCell>
                               <TableCell align="center"><div className={classes.normal}>{row.timeout}</div></TableCell>
                             </>):(<></>)}
-                          {(clickedItem === CLICK_ATTENDENCE_HISTORY)?(<TableCell align="center"><div className={classes.normal}>{row.hours}</div></TableCell>):(<></>)}
+                          {(clickedItem === CLICK_ATTENDENCE_HISTORY)?(<TableCell className = {classes.normalcell} align="center"><div className={classes.normal}>{row.hours}</div></TableCell>):(<></>)}
                       </TableRow>
                     );
                   })}
@@ -503,14 +513,15 @@ export default function EnhancedTable({clickedItem}) {
                       height: (53) * emptyRows,
                     }}
                   >
-                    <TableCell colSpan={6} />
+                    <TableCell className = {classes.normalcell} colSpan={6} />
                   </TableRow>
                 )}
               </TableBody>
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            className = {classes.normalcell}
+            rowsPerPageOptions={[25, 50, 100]}
             component="div"
             count={rows.length}
             rowsPerPage={rowsPerPage}
