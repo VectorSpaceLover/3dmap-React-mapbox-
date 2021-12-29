@@ -85,7 +85,7 @@ const MarkerMap = forwardRef((props, ref) => {
       //   latitude: 37.87221
       // } // Coordinates of UC Berkeley
     });
-    map.setZoom(6);
+    map.setZoom(4.1);
 
     map.addControl(geocoder);
     if(props.selId === 0){
@@ -155,7 +155,7 @@ const MarkerMap = forwardRef((props, ref) => {
       </div>)}
      
       <ColorButton onClick={() => addNewSite()}>
-        Add New Site
+        <span>Add New Site</span>
       </ColorButton>
       {/* <div style = {{display: 'flex', justifyContent: 'center'}}><SearchBox /></div> */}
     </div>

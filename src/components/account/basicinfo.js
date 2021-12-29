@@ -221,7 +221,7 @@ function BasicInfoCard({siteInfo}) {
                     height = '40px'
                     onClick={handleClose}
                   >
-                    Cancel
+                    <span>Cancel</span>
                 </ColorButton>
                 <ColorButton 
                     brcolor = {BG_COLOR_BOUNDARY_BTN}
@@ -233,7 +233,7 @@ function BasicInfoCard({siteInfo}) {
                     onClick={handleClose}
                     style = {{marginLeft: 30}}
                   >
-                    Save
+                    <span>Save</span>
                 </ColorButton>
             </div>
           </div>

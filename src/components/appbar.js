@@ -29,13 +29,13 @@ export default function PrimarySearchAppBar() {
         <AppBar position="static" style = {{backgroundColor: 'white', color: 'black'}}>
           <Toolbar>
             <Box sx={{display: {xs: 'flex', md: 'flex'}}} style = {{alignItems: 'center'}}>
-              <a href = '/'><LogoIcon style = {{ marginRight: 5 }}/></a>
+              <a href = '/'><LogoIcon style = {{ marginRight: 20 }}/></a>
               {/* <img style = {{width: '40px', marginRight: 5}} src = '/logo.png' alt = 'logo'/> */}
               <span>{APP_NAME}</span>
             </Box>
             <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: 'flex', md: 'flex' } }} style = {{alignItems: 'center'}}>
-              <span>Account Settings</span>
+            <Box sx={{ display: { xs: 'flex', md: 'flex' } }} style = {{alignItems: 'center', position: 'absolute', right: 29}}>
+              <span style = {{marginRight: 29}}>Account Settings</span>
               <IconButton 
                 color="primary" 
                 aria-label="upload picture" 

@@ -400,7 +400,7 @@ export default function EnhancedTable({clickedItem}) {
               className = {classes.sortbtn}
               onClick = {sortItem}
             >
-              Sort By<KeyboardArrowDownIcon style = {{color: '#7A7A7A', marginLeft: 22}}/>
+              <span>Sort By</span><KeyboardArrowDownIcon style = {{color: '#7A7A7A', marginLeft: 22}}/>
           </ColorButton>
           <StyledMenu
             id="demo-customized-menu"
@@ -412,23 +412,23 @@ export default function EnhancedTable({clickedItem}) {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose} disableRipple>
-              Name
+              <span>Name</span>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              Company Name
+              <span>Company Name</span>
             </MenuItem>
             <Divider sx={{ my: 0.5 }} />
             <MenuItem onClick={handleClose} disableRipple>
-              Worker/Visitor
+              <span>Worker/Visitor</span>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              Time-In
+              <span>Time-In</span>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              Time-Out
+              <span>Time-Out</span>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              Hours On Site
+              <span>Hours On Site</span>
             </MenuItem>
           </StyledMenu>
           <LocalizationProvider 

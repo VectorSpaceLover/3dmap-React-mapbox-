@@ -210,7 +210,7 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                                         txtcolor = {BG_COLOR_BLACK}
                                         hrcolor = {BG_COLOR_BULE_LITTLE}
                                     >
-                                        Edit Site Boundary
+                                        <span>Edit Site Boundary</span>
                                         <EditIcon style = {{marginLeft: 35}}/>
                                     </ColorButton>
                                     <IconButton aria-label="delete" onClick = {() => {deletePolygon(); setBdStatus(BOUNDARY_NONE);}}>
@@ -226,7 +226,7 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                                     txtcolor = {(bdStatus === BOUNDARY_NONE)?BG_COLOR_BLACK:BG_COLOR_WHITE}
                                     hrcolor = {BG_COLOR_BULE_LITTLE}
                                 >
-                                    Set site boundary 
+                                    <span>Set site boundary </span>
                                     {(bdStatus === BOUNDARY_NONE)?<EditIcon style = {{marginLeft: 14}}/>:<WhiteEditIcon style = {{marginLeft: 14}} />}
                                 </ColorButton>
                             </>)}
@@ -257,7 +257,7 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                                     txtcolor = {BG_COLOR_BLACK}
                                     hrcolor = {BG_COLOR_BULE}
                                 >
-                                    Edit Site Markup
+                                    <span>Edit Site Markup</span>
                                     <MarkupIcon  style = {{marginLeft: 10}}/>
                                 </ColorButton>
                                 <IconButton aria-label="delete" onClick = {() => {deleteMarkup();}}>
@@ -284,7 +284,7 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                             brcolor = {BG_COLOR_WHITE}
                             txtcolor = '#1875F0'
                         >
-                            Cancel
+                            <span>Cancel</span>
                         </ColorButton>
                     </div>
                 </div>

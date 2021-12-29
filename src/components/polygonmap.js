@@ -149,6 +149,7 @@ const PolygonMap = forwardRef((props, ref) => {
         currentCenterPixel.x = event.clientX - rect.offsetLeft;
         currentCenterPixel.y = event.clientY - rect.offsetTop + window.scrollY;
         let iconInfo = mapObj.unproject(currentCenterPixel);
+        console.log(iconInfo);
         if(checkCoordinate(iconInfo.lng, iconInfo.lat) === true) {
           if(iconListNew.length === 0)
             setIconListNew([...iconListNew, {id: iconListNew.length, icon: selItem.value, position: iconInfo}]);
