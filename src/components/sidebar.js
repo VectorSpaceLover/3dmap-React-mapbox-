@@ -11,7 +11,7 @@ import '../css/style.css';
 const useStyles = makeStyles({
     root: {
         width: SIDEBAR_WIDTH,
-        overflow: 'auto'
+        overflow: 'auto',
     },
     selected: {
         backgroundColor: '#0066ffef',
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 });
 
 const mapStyle = {
-    height: 80,
+    height: 114,
 }
 
 export const SideBar = ({ getSelectedItem, sites }) => {
@@ -58,14 +58,14 @@ export const SideBar = ({ getSelectedItem, sites }) => {
             // ref = {sideBarEl} 
             className={classes.root}
         >
-            <List className="list" component="nav" >
+            <List className="list">
                 <ListItem
                     className={isSelected(0) ? classes.hrselected : null}
                     style = {mapStyle}
                     onClick={() => onSelected(0, MAP_VIEW)}
                 >
                     {isSelected(0)?<img src = '/map.png' alt='map' />:<></>}
-                    <ListItemText primary='Map View'></ListItemText>
+                    <span className='font18-500'>Map View</span>
                 </ListItem>
                 <Divider/>
                 {(sites.length > 0) && sites.map((item, i) => {
@@ -73,12 +73,13 @@ export const SideBar = ({ getSelectedItem, sites }) => {
                             <React.Fragment key={i}>
                                 {/* {console.log("item " + i + '====' + isSelected(i) ? 'selected' : null)} */}
                                 <ListItem
+                                    style = {{height: 53}}
                                     button={true} 
                                     className={isSelected(i + 1) ? classes.selected : null} 
                                     onClick={() => onSelected(i + 1, item)}
                                     onDoubleClick={() => history(`/showsite/managesite/${item.sitemappingId}`)}
                                 >
-                                    <ListItemText primary={item.data.Sitename} ></ListItemText>
+                                    <span className='font13-500'>{item.data.Sitename}</span>
                                 </ListItem>
                                 <Divider/>
                             </React.Fragment>

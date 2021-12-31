@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem, { treeItemClasses } from '@mui/lab/TreeItem';
-import Typography from '@mui/material/Typography';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { 
@@ -28,15 +27,17 @@ import { useNavigate } from 'react-router-dom';
 import { CLICK_ATTENDENCE_LIVE, CLICK_ATTENDENCE_DAILY, CLICK_ATTENDENCE_HISTORY } from '../constant';
 import { useParams } from "react-router-dom";
 
+import '../css/style.css';
+
 const StyledTreeItemRoot = styled(TreeItem)(({ theme, ...props }) => ({
   color: '#33323D',
   [`& .${treeItemClasses.content}`]: {
-    color: (props.active === 'true')? 'white': '#33323D',
+    color: (props.active === true)? 'white': '#33323D',
     paddingRight: theme.spacing(1),
     height: 50,
     display: 'flex',
     alignItems: 'center',
-    backgroundColor: (props.active === 'true')?  BG_COLOR_BULE: 'white',
+    backgroundColor: (props.active === true)?  BG_COLOR_BULE: 'white',
     '&.MuiTreeItem-content': {
       padding: 0,
       margin: 0,
@@ -98,7 +99,6 @@ function StyledTreeItem(props) {
     bgColor,
     color,
     labelIcon: LabelIcon,
-    labelInfo,
     labelText,
     active,
     ...other
@@ -109,12 +109,9 @@ function StyledTreeItem(props) {
       label={
         <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0 }}>
           <Box component={LabelIcon} color="inherit" style={{ marginRight: 25 }} />
-          <Typography variant="body2" sx={{ fontSize: 13, fontWeight: 400, flexGrow: 1 }}>
+          <span className={active === true?'font13-700':'font13-400'} sx={{ flexGrow: 1 }}>
             {labelText}
-          </Typography>
-          <Typography variant="caption" color="inherit">
-            {labelInfo}
-          </Typography>
+          </span>
         </Box>
       }
       style={{
@@ -133,6 +130,7 @@ StyledTreeItem.propTypes = {
   labelIcon: PropTypes.elementType.isRequired,
   labelInfo: PropTypes.string,
   labelText: PropTypes.string.isRequired,
+  active: PropTypes.bool
 };
 
 function StyledChildTreeItem(props) {
@@ -142,6 +140,7 @@ function StyledChildTreeItem(props) {
     labelIcon: LabelIcon,
     labelInfo,
     labelText,
+    active,
     ...other
   } = props;
 
@@ -150,12 +149,9 @@ function StyledChildTreeItem(props) {
       label={
         <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0 }}>
           <Box component={LabelIcon} color="inherit" style={{ marginRight: 20 }}/>
-          <Typography variant="body2" sx={{ fontSize: 12, fontWeight: 400, flexGrow: 1 }}>
+          <span className={active === true?'font12-700':'font12-400'} sx={{ flexGrow: 1 }}>
             {labelText}
-          </Typography>
-          <Typography variant="caption" color="inherit" >
-            {labelInfo}
-          </Typography>
+          </span>
         </Box>
       }
       style={{
@@ -188,6 +184,7 @@ export default function GmailTreeView({
   const { id } = useParams();
   const url = window.location.pathname;
   const [currentItem, setItem] = useState(CLICK_MANAGE_SITE);
+  const [currentChildItem, setChildItem] = useState(CLICK_ATTENDENCE);
 
   const handleClick = (txt) => {
     if(txt === CLICK_ATTENDENCE_LIVE)
@@ -249,6 +246,22 @@ export default function GmailTreeView({
   useEffect(() => {
     if(url.indexOf('attendence') >= 0){
       setItem(CLICK_ATTENDENCE);
+      if(url.indexOf('attendence/live/') >= 0){
+        setChildItem(CLICK_ATTENDENCE_LIVE);
+      }
+      else{
+        if(url.indexOf('attendence/daily/') >= 0){
+          setChildItem(CLICK_ATTENDENCE_DAILY);
+        }
+        else{
+          if(url.indexOf('attendence/history/') >= 0){
+            setChildItem(CLICK_ATTENDENCE_HISTORY);
+          }
+          else{
+            console.log('other');
+          }
+        }
+      }
     }
     else{
       if(url.indexOf('managesite') >= 0){
@@ -318,7 +331,7 @@ export default function GmailTreeView({
                 color={BG_COLOR_WHITE} 
                 bgColor={BG_COLOR_BULE}
                 onClick = {() => handleClick(item.lableText)}
-                active = {(item.lableText === currentItem)?'true':'false'}
+                active = {(item.lableText === currentItem)?true:false}
               >
                 {SHOW_SITE_BAR_CHILD.map((item, index) => {
                   return (
@@ -330,6 +343,7 @@ export default function GmailTreeView({
                       color={BG_COLOR_WHITE}
                       bgColor={BG_COLOR_BULE_LITTLE}
                       onClick = {() => handleClick(item.lableText)}
+                      active = {(item.lableText === currentChildItem)?true:false}
                     />
                   )
                 })}
@@ -342,7 +356,7 @@ export default function GmailTreeView({
                 color={BG_COLOR_WHITE}
                 bgColor={BG_COLOR_BULE}
                 onClick = {() => handleClick(item.lableText)}
-                active = {(item.lableText === currentItem)?'true':'false'}
+                active = {(item.lableText === currentItem)?true:false}
               />
             )}
           </div>

@@ -4,6 +4,7 @@ import { ReactComponent as MapPinIcon } from '../images/mappin.svg';
 import { ReactComponent as WhiteMapPinIcon } from '../images/whitemappin.svg';
 
 import { BG_COLOR_WHITE } from '../constant';
+import '../css/style.css';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -81,7 +82,7 @@ export default function MapPin(props){
     <>
           <div className={(props.isSelec === true)?classes.messageBlue:classes.messageWhite}>
             {(props.isSelec === true)?<WhiteMapPinIcon />: <MapPinIcon />}
-            <span className={(props.isSelec === true)?classes.messageContentBlue:classes.messageContentWhite}>{message}</span>
+            <div className={(props.isSelec === true)?classes.messageContentBlue:classes.messageContentWhite}><span className='font11-700'>{message}</span></div>
           </div>
     </>
   );

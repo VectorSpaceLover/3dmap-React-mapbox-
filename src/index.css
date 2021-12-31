@@ -1,19 +1,6 @@
-* { 
-  font-family: 'RivieraNightsTrial !important';
-  font-weight: 400;
-  font-size: 12;
-}
 
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-@font-face {
-  font-family: "RivieraNightsTrial";
-  src: local("RivieraNightsTrial"),
-   url("./css/RivieraNightsTrial-Regular.otf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
 }

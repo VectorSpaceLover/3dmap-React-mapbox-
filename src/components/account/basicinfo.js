@@ -12,6 +12,8 @@ import Dialog from '@mui/material/Dialog';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { BG_COLOR_WHITE, BG_COLOR_BOUNDARY_BTN, BG_COLOR_BULE_LITTLE, BG_COLOR_WARNING } from '../../constant';
 
+import '../../css/style.css';
+
 const useStyles = makeStyles({
   root: {
     display: 'flex',
@@ -43,23 +45,16 @@ const useStyles = makeStyles({
 
   title: {
     marginTop: 11,
-    fontSize: 22,
-    fontStyle: 'normal',
-    fontWeight: 700,
   },
 
   description: {
     paddingTop: 20,
     marginLeft: 19,
-    fontSize: 13,
-    fontWeight: 700,
   },
 
   address: {
       marginLeft: 16,
       fontSize: 13,
-      fontStyle: 'bold',
-      fontWeight: 700,
       marginTop: 5,
   },
   // Dialog
@@ -81,8 +76,6 @@ const useStyles = makeStyles({
 
   contentTxt: {
     color: '#7A7A7A',
-    fontSize: 13,
-    fontWeight: 400,
   },
 
   input: {
@@ -90,6 +83,9 @@ const useStyles = makeStyles({
     width: '100%',
     height: 53,
     backgroundColor: 'white',
+    fontFamily: 'RivieraNightsTrial Regular',
+    fontSize: 14,
+    fontWeight: 700,
     '& > fieldset': {
         backgroundColor: (props) => (props.bgcolor),
         border: (props) => (`1px solid ${props.brcolor} !important`),
@@ -135,6 +131,8 @@ function BasicInfoCard({siteInfo}) {
   const classes = useStyles();
 
   const [accountName, setAccountName] = useState('');
+  const [companyAddress, setCompanyAddress] = useState('');
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -148,14 +146,18 @@ function BasicInfoCard({siteInfo}) {
     setAccountName(event.target.value);
   }
 
+  const handleCompanyAddress = (event) => {
+    setCompanyAddress(event.target.value);
+  }
+
   return (
     <div className={classes.root}>
       <div className = {classes.row} >
         <LogoIcon />
         <div className={`${classes.column} ${classes.txt}`}>
           <div className={classes.row}>
-            <span className={classes.title}>Hi Daniel Ricciardo</span>
-            <span className={classes.description}>New Australian Construction Company LLC</span>
+            <span className={`${classes.title} font22-700`}>Hi Daniel Ricciardo</span>
+            <span className={`${classes.description} font13-700`}>New Australian Construction Company LLC</span>
             <ColorButton 
               style = {{position: 'absolute', top: 0, right: 0}} 
               brcolor = {BG_COLOR_WHITE}
@@ -166,16 +168,16 @@ function BasicInfoCard({siteInfo}) {
               height = '35px'
               onClick={handleClickOpen}
             >
-              <EditIcon style = {{marginRight: 14}} /><span>Edit Basic Info</span>
+              <EditIcon style = {{marginRight: 14}} /><span className='font13-900'>Edit Basic Info</span>
           </ColorButton>
           </div>
           <div className={`${classes.row} ${classes.line}`}>
             <BlackPin />
-            <div className={classes.address}>1256 William St, Sydney, NSW 2001</div>
+            <span className={`${classes.address} font13-700`}>1256 William St, Sydney, NSW 2001</span>
           </div>
           <div className={`${classes.row} ${classes.line}`}>
             <MsgIcon />
-            <div className={classes.address}>companymail@nacc.com</div>
+            <span className={`${classes.address} font13-700`}>companymail@nacc.com</span>
           </div>
         </div>
       </div>
@@ -187,22 +189,22 @@ function BasicInfoCard({siteInfo}) {
       >
           <div className={classes.dialogContainer}>
             <div className={classes.dialogHeader}>
-              <div style={{fontSize: 18, fontWeight: 700}}>Edit Basic Information</div>
+              <span className='font18-700'>Edit Basic Information</span>
               <LogoIcon style = {{marginTop: 25}}/>
               <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 32}}>
                 <GallaryIcon />
-                <div style={{color: '#1875F0', fontSize: 13, fontWeight: 900, marginLeft: 20}}>Change Company logo</div>
+                <span className = 'font13-900' style={{color: '#1875F0', marginLeft: 20}}>Change Company logo</span>
               </div>
             </div>
           </div>
           <div className={classes.dialogContainer}>
             <div style={{marginTop: 35}}>
-              <p className={classes.contentTxt}>Account Name</p>
+              <span className={`${classes.contentTxt} font13-400`}>Account Name</span>
               <OutlinedInput className = {classes.input} value={accountName} onChange={handleAccountName} />
             </div>
             <div style={{marginTop: 24}}>
-              <p className={classes.contentTxt}>Company Address</p>
-              <OutlinedInput className = {classes.input} value={accountName} onChange={handleAccountName} />
+              <span className={`${classes.contentTxt} font13-400`}>Company Address</span>
+              <OutlinedInput className = {classes.input} value={companyAddress} onChange={handleCompanyAddress} />
             </div>
             <div style = {{
                 marginTop: 35,
@@ -221,7 +223,7 @@ function BasicInfoCard({siteInfo}) {
                     height = '40px'
                     onClick={handleClose}
                   >
-                    <span>Cancel</span>
+                    <span className='font13-700'>Cancel</span>
                 </ColorButton>
                 <ColorButton 
                     brcolor = {BG_COLOR_BOUNDARY_BTN}
@@ -233,7 +235,7 @@ function BasicInfoCard({siteInfo}) {
                     onClick={handleClose}
                     style = {{marginLeft: 30}}
                   >
-                    <span>Save</span>
+                    <span className='font13-700'>Save</span>
                 </ColorButton>
             </div>
           </div>

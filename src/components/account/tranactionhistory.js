@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@mui/styles';
 
+import '../../css/style.css';
+
 const useStyles = makeStyles({
   root: {
     display: 'flex',
@@ -10,12 +12,6 @@ const useStyles = makeStyles({
     backgroundColor: 'white',
     color: '#33323D',
     marginBottom: 12,
-  },
-
-  title: {
-    fontSize: 22,
-    fontStyle: 'normal',
-    fontWeight: 700,
   },
   
   item: {
@@ -29,8 +25,6 @@ const useStyles = makeStyles({
 
   date: {
     color: '#7A7A7A',
-    fontSize: 11,
-    fontWeight: 400,
   },
 
   row: {
@@ -40,10 +34,6 @@ const useStyles = makeStyles({
     marginTop: 16,
   },
 
-  txt: {
-      fontSize: 13,
-      fontWeight: 700,
-  },
 });
 
 
@@ -80,13 +70,13 @@ function TranactionHistory({siteInfo}) {
   return (
     <div className={classes.root}>
       <div className = {classes.column}>
-        <div className={classes.title}>Transaction History</div>
+        <div className='font22-700'>Transaction History</div>
         {tranactionItem.map((item, index) => 
             <div key = {index} className={classes.item}>
-                <div className={classes.date}>{item.date}</div>
-                <div className={`${classes.row} ${classes.txt}`}>
-                    <div>{item.number}</div>
-                    <div style = {{marginLeft: 74}}>{item.comment}</div>
+                <div className={`${classes.date} font11-400`}>{item.date}</div>
+                <div className={`${classes.row}`}>
+                    <span className='font13-700'>{item.number}</span>
+                    <span className='font13-700' style = {{marginLeft: 74}}>{item.comment}</span>
                 </div>
             </div>
         )}

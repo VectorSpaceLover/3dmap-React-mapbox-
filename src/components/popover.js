@@ -14,6 +14,7 @@ import { ReactComponent as PinIcon } from '../images/pin.svg';
 import { ReactComponent as WhiteArrowIcon } from '../images/whitearrow.svg';
 
 import '../css/style.css';
+import '../App.css';
 
 const ColorButton = withStyles((theme) => ({
     root: {
@@ -39,10 +40,10 @@ const useStyles = makeStyles({
         height: 150,
         width: '70%',
         textAlign: 'center',
-        // boxShadow: '3px 3px 2px 1px rgb(242, 242,242)',
         position: 'absolute',
         bottom: 30,
         borderRadius: 10,
+        fontFamily: 'RivieraNightsTrial Regular',
         ['@media (max-width:1250px)']: { // eslint-disable-line no-useless-computed-key
             height:180,
             width:'65%'
@@ -104,13 +105,13 @@ export default function PopOver(props){
                 <Row>
                     <Col sm = {11} xs = {11} md = {isRoot?8:6} lg = {isRoot?8:6}>
                         <div className={classes.column}>
-                            <div className={classes.row}><p style = {{fontSize: 20, fontWeight: 'bold'}}>{isRoot?("\"Company Name\" " + siteInfo?.data?.Sitename):("Site Overview: " + siteInfo?.data?.Sitename)}</p></div>
+                            <div className={classes.row}><span className='font22-700'>{isRoot?("\"Company Name\" " + siteInfo?.data?.Sitename):("Site Overview: " + siteInfo?.data?.Sitename)}</span></div>
                             <div className={classes.row}>
-                                <PinIcon className={classes.icon}/><p>{isRoot?("Company Address: " + siteInfo?.data?.Siteaddress):("Address: " + siteInfo?.data?.Siteaddress)}</p>
+                                <PinIcon className={classes.icon}/><span className='font13-400'>{isRoot?("Company Address: " + siteInfo?.data?.Siteaddress):("Address: " + siteInfo?.data?.Siteaddress)}</span>
                             </div>
                             <div className={classes.row}>
-                                {isRoot?(<><BookmarkBorderOutlinedIcon className={classes.icon} /><p>{"Sites managed: " + 5}</p></>):
-                                    (<><DateRangeOutlinedIcon  className={classes.icon}/><p>{"Start Date: 01-03-2018"}</p></>)}
+                                {isRoot?(<><BookmarkBorderOutlinedIcon className={classes.icon} /><span className='font13-400'>{"Sites managed: " + 5}</span></>):
+                                    (<><DateRangeOutlinedIcon  className={classes.icon}/><span className='font13-400'>{"Start Date: 01-03-2018"}</span></>)}
                             </div>
                         </div>
                     </Col>
@@ -120,15 +121,15 @@ export default function PopOver(props){
                             <div style = {{marginLeft: 20}} className={classes.column}>
                                 <div className={classes.row}>
                                     <WorkersIcon className={classes.icon}/>
-                                    <p style={{color: '#1875F0'}}>{"Total workers on Sites: " + workers}</p>
+                                    <span className='font13-400' style={{color: '#1875F0'}}>{"Total workers on Sites: " + workers}</span>
                                 </div>
                                 <div className={classes.row}>
                                     <VisitorsIcon className={classes.icon}/>
-                                    <p style={{color: '#1875F0'}}>{"Total visitors on Sites: " + visitors}</p>
+                                    <span className='font13-400' style={{color: '#1875F0'}}>{"Total visitors on Sites: " + visitors}</span>
                                 </div>
                                 <div className={classes.row}>
                                     <WarningIcon className={classes.icon} />
-                                    <p style = {{color: '#EF4F4F'}}>{"Total open hazards on Sites: " + hazards}</p>
+                                    <span className='font13-400' style = {{color: '#EF4F4F'}}>{"Total open hazards on Sites: " + hazards}</span>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +137,7 @@ export default function PopOver(props){
                     {!isRoot && 
                         <Col sm = {12} xs = {12} md = {2} lg = {2} style={{display: isRoot?'none':'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <ColorButton onClick={() => manageSite()}>
-                                <SettingsIcon style = {{marginRight: 10}} /><span>Manage</span><WhiteArrowIcon style = {{marginLeft: 10}} />
+                                <SettingsIcon style = {{marginRight: 10}} /><span className='font13-700'>Manage</span><WhiteArrowIcon style = {{marginLeft: 10}} />
                             </ColorButton>
                         </Col>
                     }

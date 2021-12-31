@@ -37,6 +37,8 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DatePicker';
 
+import '../../css/style.css';
+
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -64,7 +66,6 @@ const StyledMenu = styled((props) => (
     },
     '& .MuiMenuItem-root': {
       '& .MuiSvgIcon-root': {
-        fontSize: 12,
         color: theme.palette.text.secondary,
         marginRight: theme.spacing(1.5),
       },
@@ -80,7 +81,6 @@ const StyledMenu = styled((props) => (
 
 const ColorButton = withStyles((theme) => ({
   root: {
-      fontSize: 13,
       width: (props) => (props.width?props.width:'100%'),
       height: (props) => (props.height?props.height:'53px'),
       color: (props) => (props.txtcolor),
@@ -110,19 +110,13 @@ const useStyles = makeStyles({
     },
     name: {
         color: '#1875F0',
-        fontWeight: 900,
-        fontSize: 12,
         marginLeft: 27,
     },
     company: {
         color: '#33323D',
-        fontWeight: 900,
-        fontSize: 12,
     },
     normal: {
         color: '#33323D',
-        fontWeight: 400,
-        fontSize: 12,
     },
 
     avatar: {
@@ -144,14 +138,6 @@ const useStyles = makeStyles({
       marginLeft: 10,
     },
 
-    normalcell: {
-      fontSize: 12,
-      fontWeight: 400,
-    },
-    boldcell: {
-      fontSize: 12,
-      fontWeight: 900,
-    }
  });
 
 function createData(imageId, name, company, worker, inducted, daily, timein, timeout, hours) {
@@ -274,12 +260,12 @@ function EnhancedTableHead(props) {
                 align={'center'}
                 // padding={headCell.disablePadding ? 'none' : 'normal'}
                 sortDirection={orderBy === headCell.id ? order : false}
-                className = {classes.normalcell}
               >
                 <TableSortLabel
                   active={orderBy === headCell.id}
                   direction={orderBy === headCell.id ? order : 'asc'}
                   onClick={createSortHandler(headCell.id)}
+                  className = 'font12-500'
                 >
                   {headCell.label}
                   {orderBy === headCell.id ? (
@@ -400,7 +386,7 @@ export default function EnhancedTable({clickedItem}) {
               className = {classes.sortbtn}
               onClick = {sortItem}
             >
-              <span>Sort By</span><KeyboardArrowDownIcon style = {{color: '#7A7A7A', marginLeft: 22}}/>
+              <span className='font12-500'>Sort By</span><KeyboardArrowDownIcon style = {{color: '#7A7A7A', marginLeft: 22}}/>
           </ColorButton>
           <StyledMenu
             id="demo-customized-menu"
@@ -412,23 +398,23 @@ export default function EnhancedTable({clickedItem}) {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose} disableRipple>
-              <span>Name</span>
+              <span className='font12-400'>Name</span>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              <span>Company Name</span>
+              <span className='font12-400'>Company Name</span>
             </MenuItem>
             <Divider sx={{ my: 0.5 }} />
             <MenuItem onClick={handleClose} disableRipple>
-              <span>Worker/Visitor</span>
+              <span className='font12-400'>Worker/Visitor</span>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              <span>Time-In</span>
+              <span className='font12-400'>Time-In</span>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              <span>Time-Out</span>
+              <span className='font12-400'>Time-Out</span>
             </MenuItem>
             <MenuItem onClick={handleClose} disableRipple>
-              <span>Hours On Site</span>
+              <span className='font12-400'>Hours On Site</span>
             </MenuItem>
           </StyledMenu>
           <LocalizationProvider 
@@ -443,7 +429,7 @@ export default function EnhancedTable({clickedItem}) {
               renderInput={({ inputRef, inputProps, InputProps }) => (
                 <Box sx={{ display: 'flex', alignItems: 'center', position: 'absolute', right: 52, top: 10}}>
                   {InputProps?.endAdornment}
-                  <div ref={inputRef} style = {{marginLeft: 15}}>{inputProps.value}</div>
+                  <span className='font12-700' ref={inputRef} style = {{marginLeft: 15}}>{inputProps.value}</span>
                   <KeyboardArrowDownIcon style = {{ marginLeft: 22}}/>
                 </Box>
               )}
@@ -452,6 +438,7 @@ export default function EnhancedTable({clickedItem}) {
         </div>):
       <></>}
       
+            
       <Box sx={{ width: '100%', boxShadow: 'none', border: 'none', overflow: 'auto'}}>
         <Paper sx={{ width: '100%', mb: 2, boxShadow: 'none', border: 'none'}}>
           <TableContainer>
@@ -488,22 +475,22 @@ export default function EnhancedTable({clickedItem}) {
                         selected={isItemSelected}
                         className={classes.tableRow}
                       >
-                          <TableCell className = {classes.normalcell} align="left">
+                          <TableCell align="left">
                               <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 28}}>
                                   <img src = {`/avatars/${row.imageId}.png`} alt='avatar' className={classes.avatar}/>
-                                  <div className={classes.name}>{row.name}</div>
+                                  <span className={`${classes.name} font12-900`}>{row.name}</span>
                               </div>
                           </TableCell>
-                          <TableCell className = {classes.normalcell} align="center"><div className={classes.company}>{row.company}</div></TableCell>
-                          <TableCell className = {classes.normalcell} align="center"><div className={classes.worker}>{row.worker}</div></TableCell>
-                          <TableCell className = {classes.normalcell} align="center">{row.inducted?<OnlineIcon/>:<OfflineIcon/>}</TableCell>
-                          <TableCell className = {classes.normalcell} align="center">{row.daily?<OnlineIcon/>:<OfflineIcon/>}</TableCell>
+                          <TableCell align="center"><span className={`${classes.company} font12-900`}>{row.company}</span></TableCell>
+                          <TableCell align="center"><span className='font12-400'>{row.worker}</span></TableCell>
+                          <TableCell align="center">{row.inducted?<OnlineIcon/>:<OfflineIcon/>}</TableCell>
+                          <TableCell align="center">{row.daily?<OnlineIcon/>:<OfflineIcon/>}</TableCell>
                           {(clickedItem === CLICK_ATTENDENCE_DAILY || clickedItem === CLICK_ATTENDENCE_HISTORY)?(
                             <>
-                              <TableCell align="center"><div className={classes.normal}>{row.timein}</div></TableCell>
-                              <TableCell align="center"><div className={classes.normal}>{row.timeout}</div></TableCell>
+                              <TableCell align="center"><span className={`${classes.normal} font12-400`}>{row.timein}</span></TableCell>
+                              <TableCell align="center"><span className={`${classes.normal} font12-400`}>{row.timeout}</span></TableCell>
                             </>):(<></>)}
-                          {(clickedItem === CLICK_ATTENDENCE_HISTORY)?(<TableCell className = {classes.normalcell} align="center"><div className={classes.normal}>{row.hours}</div></TableCell>):(<></>)}
+                          {(clickedItem === CLICK_ATTENDENCE_HISTORY)?(<TableCell align="center"><span className={`${classes.normal} font12-400`}>{row.hours}</span></TableCell>):(<></>)}
                       </TableRow>
                     );
                   })}
@@ -513,14 +500,17 @@ export default function EnhancedTable({clickedItem}) {
                       height: (53) * emptyRows,
                     }}
                   >
-                    <TableCell className = {classes.normalcell} colSpan={6} />
+                    <TableCell colSpan={6} />
                   </TableRow>
                 )}
               </TableBody>
             </Table>
           </TableContainer>
           <TablePagination
-            className = {classes.normalcell}
+            classes={{
+              toolbar: 'font12-400',
+              caption: 'font12-400'
+            }}
             rowsPerPageOptions={[25, 50, 100]}
             component="div"
             count={rows.length}

@@ -42,3 +42,46 @@ body {
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: "RivieraNightsTrial Regular";
+  src: local('RivieraNightsTrial Regular'), local('RivieraNightsTrial-Regular'), 
+   url('./css/RivieraNightsTrial-Regular.otf')format("truetype");
+  font-style: normal;
+  font-weight: 400px;
+  font-size: 12px;
+}
+/* https://sitecloud-fonts.s3.ap-southeast-1.amazonaws.com/RivieraNightsTrial-Regular.otf */
+@font-face {
+  font-family: "RivieraNightsTrial Black";
+  src: local('RivieraNightsTrial Black'), local('RivieraNightsTrial-Black'), 
+   url('https://sitecloud-fonts.s3.ap-southeast-1.amazonaws.com/RivieraNightsTrial-Black.otf')format("truetype");
+}
+
+
+@font-face {
+  font-family: "RivieraNightsTrial Bold";
+  src: local('RivieraNightsTrial Bold'), local('RivieraNightsTrial-Bold'), 
+   url('https://sitecloud-fonts.s3.ap-southeast-1.amazonaws.com/RivieraNightsTrial-Bold.otf')format("truetype");
+  /* font-weight: 700px;
+  font-size: 22px; */
+}
+
+@font-face {
+  font-family: "RivieraNightsTrial Light";
+  src: local('RivieraNightsTrial Light'), local('RivieraNightsTrial-Light'), 
+   url('https://sitecloud-fonts.s3.ap-southeast-1.amazonaws.com/RivieraNightsTrial-Light.otf')format("truetype");
+}
+
+@font-face {
+  font-family: "RivieraNightsTrial Medium";
+  src: local('RivieraNightsTrial Medium'), local('RivieraNightsTrial-Medium'), 
+   url('https://sitecloud-fonts.s3.ap-southeast-1.amazonaws.com/RivieraNightsTrial-Medium.otf')format("truetype");
+}
+
+@font-face {
+  font-family: "RivieraNightsTrial Ultralight";
+  src: local('RivieraNightsTrial Ultralight'), local('RivieraNightsTrial-Ultralight'), 
+   url('https://sitecloud-fonts.s3.ap-southeast-1.amazonaws.com/RivieraNightsTrial-Ultralight.otf')format("truetype");
+}
+

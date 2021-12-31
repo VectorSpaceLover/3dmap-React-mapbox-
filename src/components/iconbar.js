@@ -11,6 +11,8 @@ import { ReactComponent as UpArrowIcon } from '../images/markups/uparrow.svg';
 import { ReactComponent as DownArrowIcon } from '../images/markups/downarrow.svg';
 import Button from '@mui/material/Button';
 
+import '../css/style.css';
+
 const useStyles = makeStyles({
     root: {
         width: ICONBAR_WIDTH, 
@@ -27,10 +29,11 @@ const useStyles = makeStyles({
     itemSpace: {
         marginLeft: 10,
     },
-    font20: {
-        fontSize: 20,
-    },
+    
     markupItem: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
         padding: 5, 
         borderRadius: 8, 
         border: '1px solid white', 
@@ -87,22 +90,26 @@ export default function IconBar({dragItem}){
 
     return (
         <div className={classes.root}>
-            <List className="list" component="nav">
+            <List className="icon-list" component="nav">
                 <ListItem
+                    style = {{padding: '10px 15px', justifyContent: 'center'}}
                 >
-                    <ListItemText primary='Drag and Drop to add item' />
+                    <span className='font13-500'>Drag and Drop to add item</span>
                 </ListItem>
                 {ICON_LIST.map((item, i) => {
                     return (
-                        <div className={classes.markupItem}>
+                        <div 
+                            className={classes.markupItem}
+                            style = {{padding: '0px 18px 0px 18px'}}
+                        >
                             <ListItem
                                 className={isSelected(i) ? 'selected' : null} 
                                 onClick={() => onSelected(i)}
                                 draggable onDragStart={()=> dragItem(item)} key={item.id}
                             >
                                 {item.icon}
-                                <ListItemText className = {classes.itemSpace} primary={item.value} ></ListItemText>
-                                <DetailIcon />
+                                <span className = {`${classes.itemSpace} font12-500`}>{item.value}</span>
+                                <DetailIcon style = {{position: 'absolute', right: 0}}/>
                             </ListItem>
                         </div>
                     )

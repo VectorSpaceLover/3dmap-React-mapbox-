@@ -155,7 +155,7 @@ const MarkerMap = forwardRef((props, ref) => {
       </div>)}
      
       <ColorButton onClick={() => addNewSite()}>
-        <span>Add New Site</span>
+        <span className='font13-700'>Add New Site</span>
       </ColorButton>
       {/* <div style = {{display: 'flex', justifyContent: 'center'}}><SearchBox /></div> */}
     </div>

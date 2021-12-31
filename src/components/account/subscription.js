@@ -22,12 +22,6 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
 
-  title: {
-    fontSize: 22,
-    fontStyle: 'normal',
-    fontWeight: 700,
-  },
-  
   item: {
     display: 'flex',
     flexDirection: 'column',
@@ -39,8 +33,6 @@ const useStyles = makeStyles({
 
   description: {
     color: '#7A7A7A',
-    fontSize: 11,
-    fontWeight: 400,
   },
 
   row: {
@@ -52,8 +44,6 @@ const useStyles = makeStyles({
 
   txt: {
       marginLeft: 19,
-      fontSize: 13,
-      fontWeight: 700,
   },
 
   // Dialog
@@ -74,8 +64,6 @@ const useStyles = makeStyles({
 
   contentTxt: {
     color: '#7A7A7A',
-    fontSize: 13,
-    fontWeight: 400,
   },
 
   input: {
@@ -83,6 +71,9 @@ const useStyles = makeStyles({
     width: '100%',
     height: 53,
     backgroundColor: 'white',
+    fontFamily: 'RivieraNightsTrial Regular',
+    fontSize: 14,
+    fontWeight: 700,
     '& > fieldset': {
         backgroundColor: (props) => (props.bgcolor),
         border: (props) => (`1px solid ${props.brcolor} !important`),
@@ -98,7 +89,6 @@ const useStyles = makeStyles({
 
 const ColorButton = withStyles((theme) => ({
   root: {
-      fontSize: 13,
       width: (props) => (props.width?props.width:'100%'),
       height: (props) => (props.height?props.height:'53px'),
       color: (props) => (props.txtcolor),
@@ -135,7 +125,10 @@ const editCardDialog = {
 function Subscription({siteInfo}) {
   const classes = useStyles();
 
-  const [accountName, setAccountName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [empiryDate, setEmpiryDate] = useState('');
+  const [cardName, setCardName] = useState('');
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -145,8 +138,16 @@ function Subscription({siteInfo}) {
     setOpen(false);
   };
 
-  const handleAccountName = (event) => {
-    setAccountName(event.target.value);
+  const handleCardNumber = (event) => {
+    setCardNumber(event.target.value);
+  }
+
+  const handleEmpiryDate = (event) => {
+    setEmpiryDate(event.target.value);
+  }
+
+  const handleCardName = (event) => {
+    setCardName(event.target.value);
   }
 
   const editCardInfo = (event) => {
@@ -160,16 +161,16 @@ function Subscription({siteInfo}) {
   const cardBody = (
   <>
     <div style={{marginTop: 35}}>
-        <p className={classes.contentTxt}>{editCardDialog.cardNumber}</p>
-        <OutlinedInput className = {classes.input} value={accountName} onChange={handleAccountName} />
+        <span className={`${classes.contentTxt} font13-400`}>{editCardDialog.cardNumber}</span>
+        <OutlinedInput className = {classes.input} value={cardNumber} onChange={handleCardNumber} />
     </div>
     <div style={{marginTop: 24}}>
-        <p className={classes.contentTxt}>{editCardDialog.expiryDate}</p>
-        <OutlinedInput className = {classes.input} value={accountName} onChange={handleAccountName} />
+        <span className={`${classes.contentTxt} font13-400`}>{editCardDialog.expiryDate}</span>
+        <OutlinedInput className = {classes.input} value={empiryDate} onChange={handleEmpiryDate} />
     </div>
     <div style={{marginTop: 24}}>
-        <p className={classes.contentTxt}>{editCardDialog.nameOnCard}</p>
-        <OutlinedInput className = {classes.input} value={accountName} onChange={handleAccountName} />
+        <span className={`${classes.contentTxt} font13-400`}>{editCardDialog.nameOnCard}</span>
+        <OutlinedInput className = {classes.input} value={cardName} onChange={handleCardName} />
     </div>
   </>
   );
@@ -177,12 +178,12 @@ function Subscription({siteInfo}) {
   return (
     <div className={classes.root}>
       <div className = {classes.column}>
-        <div className={classes.title}>Subscription plan</div>
+        <div className='font22-700'>Subscription plan</div>
         <div className={classes.item}>
-            <div className={classes.description}>Current Plan</div>
+            <div className={`${classes.description} font11-400`}>Current Plan</div>
             <div className={classes.row}>
                 <PlanIcon />
-                <div className={classes.txt}>Gold Membership</div>
+                <span className={`${classes.txt} font13-700`}>Gold Membership</span>
             </div>
             <ColorButton 
               style = {{position: 'absolute', top: 0, right: 0}} 
@@ -193,15 +194,15 @@ function Subscription({siteInfo}) {
               width = '155px'
               height = '35px'
             >
-              <EditIcon style = {{marginRight: 14}} /><span>Change Plan</span>
+              <EditIcon style = {{marginRight: 14}} /><span className='font13-900'>Change Plan</span>
             </ColorButton>
         </div>
 
         <div className={classes.item}>
-            <div className={classes.description}>Card Info</div>
+            <div className={`${classes.description} font11-400`}>Card Info</div>
             <div className={classes.row}>
                 <CardIcon />
-                <div className={classes.txt}>****  -  ****  -  ****  -  2147</div>
+                <span className={`${classes.txt} font13-700`}>****  -  ****  -  ****  -  2147</span>
             </div>
             <ColorButton 
               style = {{position: 'absolute', top: 0, right: 0}} 
@@ -213,7 +214,7 @@ function Subscription({siteInfo}) {
               height = '35px'
               onClick={editCardInfo}
             >
-              <EditIcon style = {{marginRight: 14}} /><span>Edit Card Info</span>
+              <EditIcon style = {{marginRight: 14}} /><span className='font13-900'>Edit Card Info</span>
             </ColorButton>
         </div>
         <div className={classes.row}>
@@ -226,7 +227,7 @@ function Subscription({siteInfo}) {
                 height = '35px'
                 onClick={changePassword}
             >
-              <PlusIcon style = {{marginRight: 14}} /><span>Add New Payment Method</span>
+              <PlusIcon style = {{marginRight: 14}} /><span className='font13-900'>Add New Payment Method</span>
             </ColorButton>
         </div>
       </div>
@@ -238,9 +239,9 @@ function Subscription({siteInfo}) {
       >
           <div className={classes.dialogContainer}>
             <div className={classes.dialogHeader}>
-                <div style={{fontSize: 18, fontWeight: 700}}>
+                <span className='font18-700'>
                     {editCardDialog.title}
-                </div>
+                </span>
             </div>
           </div>
           <div className={classes.dialogContainer}>
@@ -262,7 +263,7 @@ function Subscription({siteInfo}) {
                     height = '40px'
                     onClick={handleClose}
                   >
-                    Cancel
+                    <span className='font13-700'>Cancel</span>
                 </ColorButton>
                 <ColorButton 
                     brcolor = {BG_COLOR_BOUNDARY_BTN}
@@ -274,7 +275,7 @@ function Subscription({siteInfo}) {
                     onClick={handleClose}
                     style = {{marginLeft: 30}}
                   >
-                    Save
+                    <span className='font13-700'>Save</span>
                 </ColorButton>
             </div>
           </div>

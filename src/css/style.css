@@ -1,6 +1,117 @@
+.font11-300 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 11px;
+    font-weight: 300;
+}
+
+.font11-400 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.font11-700 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.font14-500 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.font14-400 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.font14-700 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+.font13-400 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.font13-500 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.font13-700 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.font13-900 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.font12-400 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.font12-500 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.font12-700 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.font12-900 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.font18-500 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.font18-700 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.font20-500 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.font22-700 {
+    font-family: 'RivieraNightsTrial Regular';
+    font-size: 22px;
+    font-weight: 700;
+    font-style: normal;
+}
+
 p{
     margin: 0 !important;
 }
+
 .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
     margin: 0px !important;
     top: 10px !important;
@@ -26,6 +137,13 @@ p{
  .list{
      padding-top: 0px;
  } */
- .css-h4y409-MuiList-root{
+ /* .css-h4y409-MuiList-root{
      padding-top: 0px !important;
+ } */
+ .list{
+    padding-top: 0px !important;
+ }
+
+ .icon-list{
+     /* height: 45px; */
  }

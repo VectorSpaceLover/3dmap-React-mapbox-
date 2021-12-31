@@ -21,6 +21,12 @@ const useStyles = makeStyles({
     margin: '12px 12px',
     overflow: 'auto',
   },
+  
+  btn: {
+    fontWeight: 700,
+    fontSize: 13,
+  },
+
   // Dialog
   paper: { minWidth: "754px" },
 
@@ -56,7 +62,8 @@ const useStyles = makeStyles({
     },
     '&:hover > fieldset': {
         opacity: '.7',
-  }
+  },
+
 },
 
 });
@@ -117,15 +124,15 @@ export default function AccountSetting({siteInfo, clickedItem}) {
     const changeBody = (
         <>
           <div style={{marginTop: 35}}>
-              <p className={classes.contentTxt}>{changePasswordDialog.currentPassword}</p>
+              <span className={`${classes.contentTxt} font13-400`}>{changePasswordDialog.currentPassword}</span>
               <OutlinedInput className = {classes.input} type = 'password'/>
           </div>
           <div style={{marginTop: 24}}>
-              <p className={classes.contentTxt}>{changePasswordDialog.newPassword}</p>
+              <span className={`${classes.contentTxt} font13-400`}>{changePasswordDialog.newPassword}</span>
               <OutlinedInput className = {classes.input} type = 'password'/>
           </div>
           <div style={{marginTop: 24}}>
-              <p className={classes.contentTxt}>{changePasswordDialog.rePassword}</p>
+              <span className={`${classes.contentTxt} font13-400`}>{changePasswordDialog.rePassword}</span>
               <OutlinedInput className = {classes.input} type = 'password'/>
               {/* value={accountName} onChange={handleAccountName} */}
           </div>
@@ -148,9 +155,9 @@ export default function AccountSetting({siteInfo, clickedItem}) {
         >
             <div className={classes.dialogContainer}>
                 <div className={classes.dialogHeader}>
-                    <div style={{fontSize: 18, fontWeight: 700}}>
+                    <span className='font18-700'>
                         {changePasswordDialog.title}
-                    </div>
+                    </span>
                 </div>
             </div>
             <div className={classes.dialogContainer}>
@@ -172,7 +179,7 @@ export default function AccountSetting({siteInfo, clickedItem}) {
                         height = '40px'
                         onClick={handleClose}
                     >
-                        Cancel
+                        <span>Cancel</span>
                     </ColorButton>
                     <ColorButton 
                         brcolor = {BG_COLOR_BOUNDARY_BTN}
@@ -184,7 +191,7 @@ export default function AccountSetting({siteInfo, clickedItem}) {
                         onClick={handleClose}
                         style = {{marginLeft: 30}}
                     >
-                        Save
+                        <span>Save</span>
                     </ColorButton>
                 </div>
             </div>
@@ -200,7 +207,7 @@ export default function AccountSetting({siteInfo, clickedItem}) {
                 height = '45px'
                 onClick={() => changePassword()}
             >
-              Change Password
+              <span className='font13-700'>Change Password</span>
             </ColorButton>
             <ColorButton 
                 brcolor = {BG_COLOR_BULE_LITTLE}
@@ -211,7 +218,7 @@ export default function AccountSetting({siteInfo, clickedItem}) {
                 height = '45px'
                 onClick={() => logOut()}
             >
-              Logout
+              <span className='font13-700'>Logout</span>
             </ColorButton>
         </div>
     </div>

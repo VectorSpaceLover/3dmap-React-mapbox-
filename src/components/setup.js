@@ -22,6 +22,8 @@ import { ReactComponent as DeleteIcon } from '../images/delete.svg';
 import { ReactComponent as WhiteEditIcon } from '../images/whiteedit.svg';
 
 import Loading from './Spinner';
+import '../css/style.css';
+
 
 const useStyles = makeStyles({
     root: {
@@ -42,7 +44,6 @@ const useStyles = makeStyles({
         color: 'black',
         borderBottom: '1px solid #E5E5E5',
         paddingBottom: 10,
-        fontSize: 20,
         alignItems: 'end',
         marginBottom: 20
     },
@@ -50,13 +51,15 @@ const useStyles = makeStyles({
     text: {
         marginTop: 40,
         width: '100%',
-        fontSize: 14,
     },
     input: {
         width: '100%',
         height: 53,
         marginTop: 10,
         backgroundColor: '#ECF4FF',
+        fontFamily: 'RivieraNightsTrial Regular',
+        fontSize: 13,
+        fontWeight: 700,
         '& > fieldset': {
             backgroundColor: (props) => (props.bgcolor),
             border: (props) => (`1px solid ${props.brcolor} !important`),
@@ -185,17 +188,17 @@ export const SetupSiteBar = forwardRef((props, ref) => {
         <>
             <div className={classes.root} style={{backgroundColor: bgcolor}}>
                 <div className={classes.container}>
-                    <div className={classes.setupbar}>
+                    <div className={`${classes.setupbar} font20-500`}>
                         {(siteInfo && Object.keys(siteInfo).length === 0)?'Setup a new site':'Edit Site'}
                     </div>
 
                     <div className={classes.text}>
-                        <span style = {{position: 'relative'}}>Site Name<Star className = {classes.star}/></span>
+                        <span className = 'font14-400' style = {{position: 'relative'}}>Site Name<Star className = {classes.star}/></span>
                         <OutlinedInput className = {classes.input} value={siteName} onChange={handleSiteName} />
                     </div>
 
                     <div className={classes.text}>
-                        <span style = {{position: 'relative'}}>Site Address<Star className = {classes.star}/></span>
+                        <span className = 'font14-400' style = {{position: 'relative'}}>Site Address<Star className = {classes.star}/></span>
                         <OutlinedInput className = {classes.input} value={siteAddress} onChange={handleSiteAddress} />
                     </div>
                     {isMapLoading?<Loading />:(
@@ -210,7 +213,7 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                                         txtcolor = {BG_COLOR_BLACK}
                                         hrcolor = {BG_COLOR_BULE_LITTLE}
                                     >
-                                        <span>Edit Site Boundary</span>
+                                        <span className = 'font14-400'>Edit Site Boundary</span>
                                         <EditIcon style = {{marginLeft: 35}}/>
                                     </ColorButton>
                                     <IconButton aria-label="delete" onClick = {() => {deletePolygon(); setBdStatus(BOUNDARY_NONE);}}>
@@ -226,14 +229,14 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                                     txtcolor = {(bdStatus === BOUNDARY_NONE)?BG_COLOR_BLACK:BG_COLOR_WHITE}
                                     hrcolor = {BG_COLOR_BULE_LITTLE}
                                 >
-                                    <span>Set site boundary </span>
+                                    <span className = 'font14-400'>Set site boundary </span>
                                     {(bdStatus === BOUNDARY_NONE)?<EditIcon style = {{marginLeft: 14}}/>:<WhiteEditIcon style = {{marginLeft: 14}} />}
                                 </ColorButton>
                             </>)}
                         </div>
                     )}
                     
-                    <span style={{fontSize: 10, fontWeight: 300, color: BG_COLOR_BLACK, marginTop: 40, paddingBottom: 10}}>Site boundary must be set before markup can be added</span>
+                    <span className='font11-300' style={{color: BG_COLOR_BLACK, marginTop: 40, paddingBottom: 10}}>Site boundary must be set before markup can be added</span>
                     <div className={classes.markup}>
                         {(isExistMarkup === false)?(
                             <ColorButton 
@@ -244,7 +247,7 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                                 txtcolor = {BG_COLOR_BLACK}
                                 hrcolor = {BG_COLOR_BULE}
                             >
-                                <span>Markup site</span>
+                                <span className = 'font14-400'>Markup site</span>
                                 <MarkupIcon  style = {{marginLeft: 19}}/>
                             </ColorButton>
                         ):(
@@ -257,7 +260,7 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                                     txtcolor = {BG_COLOR_BLACK}
                                     hrcolor = {BG_COLOR_BULE}
                                 >
-                                    <span>Edit Site Markup</span>
+                                    <span className = 'font14-400'>Edit Site Markup</span>
                                     <MarkupIcon  style = {{marginLeft: 10}}/>
                                 </ColorButton>
                                 <IconButton aria-label="delete" onClick = {() => {deleteMarkup();}}>
@@ -274,7 +277,7 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                             brcolor = {BG_COLOR_BULE} 
                             txtcolor={BG_COLOR_WHITE}
                         >
-                            <span>{(siteID === null || siteID === undefined)?"Create site":"Update site"}</span>
+                            <span className = 'font13-700'>{(siteID === null || siteID === undefined)?"Create site":"Update site"}</span>
                         </SaveButton>
                         <ColorButton 
                             width = '45%'
@@ -284,7 +287,7 @@ export const SetupSiteBar = forwardRef((props, ref) => {
                             brcolor = {BG_COLOR_WHITE}
                             txtcolor = '#1875F0'
                         >
-                            <span>Cancel</span>
+                            <span className = 'font13-700'>Cancel</span>
                         </ColorButton>
                     </div>
                 </div>
